@@ -1,0 +1,5 @@
+tis_app:
+    resource: "@TISAppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
