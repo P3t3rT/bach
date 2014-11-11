@@ -1,0 +1,3 @@
+services:
+    tester:
+        class: TIS\AppBundle\Utils\Tester
