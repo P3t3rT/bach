@@ -134,7 +134,7 @@ php:
         error_reporting: '-1'
         session.save_path: /var/lib/php/session
     timezone: Europe/Amsterdam
-    mod_php: 0
+    mod_php: 1
 hhvm:
     install: '0'
     nightly: 0
@@ -156,6 +156,7 @@ xdebug:
         xdebug.remote_enable: '1'
         xdebug.remote_handler: dbgp
         xdebug.remote_port: '9000'
+        xdebug.max_nesting_level: '250'
 xhprof:
     install: '0'
 drush:

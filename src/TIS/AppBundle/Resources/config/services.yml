@@ -1,3 +1,7 @@
+parameters:
+
 services:
-    tester:
-        class: TIS\AppBundle\Utils\Tester
+    tester.setter:
+        class: TIS\AppBundle\Controller\DefaultControllert
+        calles:
+            - [setEm, [@doctrine.orm.default_entity_manager] ]
