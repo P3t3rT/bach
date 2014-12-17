@@ -21,6 +21,9 @@
 *.ipr
 *.iws
 
+#Vagrant
+.vagrant
+
 .DS_Store
 *.bak
 
