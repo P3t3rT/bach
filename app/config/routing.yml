@@ -1,5 +1,5 @@
 tis_app:
-    resource: "@TISAppBundle/Controller/"
+    resource: "@AppBundle/Controller/"
     type:     annotation
     prefix:   /
 
