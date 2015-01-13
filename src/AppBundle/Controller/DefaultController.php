@@ -19,4 +19,13 @@ class DefaultController extends Controller
     {
         return array('name' => $name);
     }
+
+    /**
+     * @Route("/empty")
+     *
+     */
+    public function emptyAction()
+    {
+        return $this->render('::blank_page.html.twig');
+    }
 }
