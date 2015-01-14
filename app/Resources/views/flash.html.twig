@@ -1,0 +1,24 @@
+{#todo: box kan zijn : succes, warning, error, info, niet geimplementeerd in Bootstrap: dimmed, highlight. #}
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="AjaxSfFlash alert alert-success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('danger') %}
+    <div class="AjaxSfFlash alert alert-danger">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('warning') %}
+    <div class="AjaxSfFlash alert alert-warning">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
+
+{% for flashMessage in app.session.flashbag.get('info') %}
+    <div class="AjaxSfFlash alert alert-info">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
