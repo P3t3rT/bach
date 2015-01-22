@@ -1,6 +1,6 @@
 <?php
 
-namespace TIS\AppBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Bach
  *
  * @ORM\Table(name="Bach")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\BachRepository")
  */
 class Bach
 {
@@ -109,7 +109,7 @@ class Bach
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -132,7 +132,7 @@ class Bach
     /**
      * Get artist
      *
-     * @return string 
+     * @return string
      */
     public function getArtist()
     {
@@ -155,7 +155,7 @@ class Bach
     /**
      * Get conductor
      *
-     * @return string 
+     * @return string
      */
     public function getConductor()
     {
@@ -178,7 +178,7 @@ class Bach
     /**
      * Get opus
      *
-     * @return string 
+     * @return string
      */
     public function getOpus()
     {
@@ -201,7 +201,7 @@ class Bach
     /**
      * Get date
      *
-     * @return string 
+     * @return string
      */
     public function getDate()
     {
@@ -224,7 +224,7 @@ class Bach
     /**
      * Get album
      *
-     * @return string 
+     * @return string
      */
     public function getAlbum()
     {
@@ -247,7 +247,7 @@ class Bach
     /**
      * Get track
      *
-     * @return integer 
+     * @return integer
      */
     public function getTrack()
     {
@@ -270,7 +270,7 @@ class Bach
     /**
      * Get ensemble
      *
-     * @return string 
+     * @return string
      */
     public function getEnsemble()
     {
@@ -293,7 +293,7 @@ class Bach
     /**
      * Get performer
      *
-     * @return string 
+     * @return string
      */
     public function getPerformer()
     {
@@ -316,7 +316,7 @@ class Bach
     /**
      * Get part
      *
-     * @return integer 
+     * @return integer
      */
     public function getPart()
     {
@@ -326,7 +326,7 @@ class Bach
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {

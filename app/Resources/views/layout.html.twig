@@ -81,7 +81,7 @@ Author: KeenThemes
 						{% image 'assets/admin/layout3/img/avatar.png'%}
 							<img class="img-circle" src="{{ asset_url }}" alt=""/>
 						{% endimage %}
-						<span class="username username-hide-mobile">Nick</span>
+						<span class="username username-hide-mobile">Peter</span>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-default">
 							<li>
@@ -458,7 +458,8 @@ Author: KeenThemes
 {% endblock javascripts%}
 
 {% block jquery %}
-
+		<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
 {% endblock jquery %}
 <!-- END JAVASCRIPTS -->
 

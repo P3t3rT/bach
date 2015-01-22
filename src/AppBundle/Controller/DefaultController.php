@@ -29,12 +29,5 @@ class DefaultController extends Controller
         return $this->render('::blank_page.html.twig');
     }
 
-    /**
-     * @Route("/list")
-     *
-     */
-    public function listAction()
-    {
-        return $this->render('::list.html.twig');
-    }
+
 }

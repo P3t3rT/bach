@@ -3,3 +3,5 @@ tis_app:
     type:     annotation
     prefix:   /
 
+fos_js_routing:
+    resource: "@FOSJsRoutingBundle/Resources/config/routing/routing.xml"

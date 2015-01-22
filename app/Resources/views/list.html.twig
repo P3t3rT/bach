@@ -16,11 +16,6 @@
     <!-- BEGIN PAGE CONTENT INNER -->
     <div class="row">
         <div class="col-md-12">
-            <div class="note note-danger note-bordered">
-                <p>
-                     NOTE: The below datatable is not connected to a real database so the filter and sorting is just simulated for demo purposes only.
-                </p>
-            </div>
             <!-- Begin: life time stats -->
             <div class="portlet light">
                 <div class="portlet-title">
@@ -85,27 +80,27 @@
                             <th width="2%">
                                 <input type="checkbox" class="group-checkable">
                             </th>
-                            <th width="5%">
-                                 Record&nbsp;#
+                            <th width="10%">
+                                 Opus
                             </th>
-                            <th width="15%">
-                                 Date
-                            </th>
-                            <th width="15%">
-                                 Customer
+                            <th width="40%">
+                                 Titel
                             </th>
                             <th width="10%">
-                                 Ship&nbsp;To
+                                 Thema
                             </th>
                             <th width="10%">
-                                 Price
+                                 Datum eerste uitvoering
                             </th>
-                            <th width="10%">
-                                 Amount
-                            </th>
-                            <th width="10%">
-                                 Status
-                            </th>
+                            {#<th width="10%">#}
+                                 {#Price#}
+                            {#</th>#}
+                            {#<th width="10%">#}
+                                 {#Amount#}
+                            {#</th>#}
+                            {#<th width="10%">#}
+                                 {#Status#}
+                            {#</th>#}
                             <th width="10%">
                                  Actions
                             </th>
@@ -114,48 +109,27 @@
                             <td>
                             </td>
                             <td>
-                                <input type="text" class="form-control form-filter input-sm" name="order_id">
+                                <input type="text" class="form-control form-filter input-sm" name="opus">
+                            </td>
+                            <td>
+                               <input type="text" class="form-control form-filter input-sm" name="title">
+                            </td>
+                            <td>
+                               <input type="text" class="form-control form-filter input-sm" name="theme">
                             </td>
                             <td>
                                 <div class="input-group date date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter input-sm" readonly name="order_date_from" placeholder="From">
+                                    <input type="text" class="form-control form-filter input-sm" readonly name="date_from" placeholder="From">
                                     <span class="input-group-btn">
                                     <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
                                     </span>
                                 </div>
                                 <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
-                                    <input type="text" class="form-control form-filter input-sm" readonly name="order_date_to" placeholder="To">
+                                    <input type="text" class="form-control form-filter input-sm" readonly name="date_to" placeholder="To">
                                     <span class="input-group-btn">
                                     <button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
                                     </span>
                                 </div>
-                            </td>
-                            <td>
-                                <input type="text" class="form-control form-filter input-sm" name="order_customer_name">
-                            </td>
-                            <td>
-                                <input type="text" class="form-control form-filter input-sm" name="order_ship_to">
-                            </td>
-                            <td>
-                                <div class="margin-bottom-5">
-                                    <input type="text" class="form-control form-filter input-sm" name="order_price_from" placeholder="From"/>
-                                </div>
-                                <input type="text" class="form-control form-filter input-sm" name="order_price_to" placeholder="To"/>
-                            </td>
-                            <td>
-                                <div class="margin-bottom-5">
-                                    <input type="text" class="form-control form-filter input-sm margin-bottom-5 clearfix" name="order_quantity_from" placeholder="From"/>
-                                </div>
-                                <input type="text" class="form-control form-filter input-sm" name="order_quantity_to" placeholder="To"/>
-                            </td>
-                            <td>
-                                <select name="order_status" class="form-control form-filter input-sm">
-                                    <option value="">Select...</option>
-                                    <option value="pending">Pending</option>
-                                    <option value="closed">Closed</option>
-                                    <option value="hold">On Hold</option>
-                                    <option value="fraud">Fraud</option>
-                                </select>
                             </td>
                             <td>
                                 <div class="margin-bottom-5">
