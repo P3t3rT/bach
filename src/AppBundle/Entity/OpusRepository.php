@@ -12,18 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class OpusRepository extends EntityRepository
 {
+//    todo: remove this method when conversion is complete
     public function findCantates()
     {
         $query = $this->_em->createQueryBuilder()
                            ->select('c')
                            ->from('AppBundle:Opus', 'c')
-                           ->where('c.theme = 1')//               ->setParameter('id', $id)
+                           ->where('c.theme = 1')
                            ->getQuery()
                            ->getResult();
 
         return $query;
     }
 
+    /**
+     * Find the selected Opus records
+     *
+     * @param $aParams
+     * @return array
+     */
     public function findSelectedRecords($aParams)
     {
 
@@ -32,10 +39,10 @@ class OpusRepository extends EntityRepository
         $column = $orderMapping[$aParams['column']];
         $dir    = $aParams['dir'];
 
-        $qb = $this->_em->createQueryBuilder('o');
+        $qb = $this->_em->createQueryBuilder();
         $qb->select('o')
            ->from('AppBundle:Opus', 'o')
-           ->where('1=1')//               ->setParameter('id', $id)
+           ->where('1=1')
            ->orderBy($column, $dir)
            ->setFirstResult($aParams['start'])
            ->setMaxResults($aParams['length']);
@@ -46,20 +53,47 @@ class OpusRepository extends EntityRepository
         }
 
         if (!empty($aParams['title'])) {
-                    $qb->andWhere('o.title LIKE :title')
-                       ->setParameter('title', '%' . $aParams['title'] . '%');
-                }
+            $qb->andWhere('o.title LIKE :title')
+               ->setParameter('title', '%' . $aParams['title'] . '%');
+        }
+
+        if (!empty($aParams['theme'])) {
+            $qb->andWhere('o.theme = :theme')
+               ->setParameter('theme', $aParams['theme']);
+        }
 
         return $qb->getQuery()->getResult();
     }
 
-    public function countRecords()
+    /**
+     * Count all Opus records
+     *
+     * @param $aParams
+     * @return mixed
+     */
+    public function countSelectedRecords($aParams)
     {
-        return $this->_em->createQueryBuilder()
-                         ->select('count(o.id)')
-                         ->from('AppBundle:Opus','o')
-                         ->getQuery()
-                         ->getSingleScalarResult();
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('count(o.id)')
+           ->from('AppBundle:Opus', 'o')
+           ->where('1=1');
+
+        if (!empty($aParams['opus'])) {
+            $qb->andWhere('o.opus LIKE :opus')
+               ->setParameter('opus', '%' . $aParams['opus'] . '%');
+        }
+
+        if (!empty($aParams['title'])) {
+            $qb->andWhere('o.title LIKE :title')
+               ->setParameter('title', '%' . $aParams['title'] . '%');
+        }
+
+        if (!empty($aParams['theme'])) {
+            $qb->andWhere('o.theme = :theme')
+               ->setParameter('theme', $aParams['theme']);
+        }
+
+        return $qb->getQuery()->getSingleScalarResult();
     }
 
 }
