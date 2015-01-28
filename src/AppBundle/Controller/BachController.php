@@ -80,7 +80,6 @@ class BachController extends Controller
             $iDisplayLength  = intval($req['length']);
             $iDisplayLength  = $iDisplayLength < 0 ? $iTotalRecords : $iDisplayLength;
             $iDisplayStart   = intval($req['start']);
-//            $sEcho           = intval($req['draw']);
             $records         = array();
             $records["data"] = array();
             $end             = $iDisplayStart + $iDisplayLength;
@@ -93,13 +92,12 @@ class BachController extends Controller
                     $rec->getTitle(),
                     $rec->getTheme()->getDescription(),
                     $rec->getDateFirstPerformance(),
-                    '<a href="javascript:;" class="btn btn-xs default"><i class="fa fa-search"></i> Deel</a>'.
-                    '</td><td><a href="javascript:;" class="btn btn-xs default"><i class="fa fa-search"></i> Tekst</a>',
+                    '<a href="javascript:;" class="btn btn-xs default"><i class="fa fa-plus-square-o"></i> Deel</a>'.
+                    '<a href="javascript:;" class="btn btn-xs default"><i class="fa fa-file-text-o"></i> Tekst</a>',
                 );
             }
 
             $records["draw"]            = intval($req['draw']);
-//            $records["draw"]            = $sEcho;
             $records["recordsTotal"]    = $iTotalRecords;
             $records["recordsFiltered"] = $iTotalRecords;
 
