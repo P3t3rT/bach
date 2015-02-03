@@ -28,3 +28,5 @@
 *.bak
 
 
+
+.vagrant/machines/default/parallels/action_set_name

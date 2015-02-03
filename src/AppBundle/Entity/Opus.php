@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Opus
@@ -212,7 +213,7 @@ class Opus
      * @param \AppBundle\Entity\Part $part
      * @return Opus
      */
-    public function addPart(\AppBundle\Entity\Part $part)
+    public function addPart(Part $part)
     {
         $this->part[] = $part;
 
@@ -224,7 +225,7 @@ class Opus
      *
      * @param \AppBundle\Entity\Part $part
      */
-    public function removePart(\AppBundle\Entity\Part $part)
+    public function removePart(Part $part)
     {
         $this->part->removeElement($part);
     }

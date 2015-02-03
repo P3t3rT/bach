@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Part
@@ -54,6 +55,16 @@ class Part
      * @ORM\JoinColumn(name="opus_id", referencedColumnName="id")
      */
     protected $opus;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Audiotrack", mappedBy="part")
+     */
+    protected $part;
+
+    public function __construct()
+    {
+        $this->$part = new ArrayCollection();
+    }
 
 
     /**
@@ -172,5 +183,38 @@ class Part
     public function setOpus($opus)
     {
         $this->opus = $opus;
+    }
+
+    /**
+     * Add part
+     *
+     * @param Audiotrack $part
+     * @return Part
+     */
+    public function addPart(Audiotrack $part)
+    {
+        $this->part[] = $part;
+
+        return $this;
+    }
+
+    /**
+     * Remove part
+     *
+     * @param Audiotrack $part
+     */
+    public function removePart(Audiotrack $part)
+    {
+        $this->part->removeElement($part);
+    }
+
+    /**
+     * Get part
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPart()
+    {
+        return $this->part;
     }
 }
