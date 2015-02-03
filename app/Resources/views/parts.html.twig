@@ -1,0 +1,59 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+	<h4 class="modal-title font-green-sharp bold">{{ head.opus }} - {{ head.title }}</h4>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- BEGIN BORDERED TABLE PORTLET-->
+			<div class="portlet light">
+				<div class="portlet-body">
+					<div class="table-scrollable">
+						<table class="table table-striped table-bordered table-hover">
+						<thead>
+						<tr class="heading">
+							<th>
+								 Nr
+							</th>
+							<th>
+								 Titel
+							</th>
+							<th>
+								 Type
+							</th>
+							<th>
+								 Actie
+							</th>
+						</tr>
+						</thead>
+						<tbody>
+						{% for part in parts %}
+						<tr>
+							<td >
+								 {{ part.partnumber }}
+							</td>
+							<td>
+								 {{ part.title }}
+							</td>
+							<td>
+								 {{ part.parttype }}
+							</td>
+							<td>
+								<a class="btn btn-xs default" data-toggle="modal" href="#stack2"><i class="fa fa-music"></i> Audio</a>
+								{#<span class="label label-sm label-success">#}
+								{#Approved </span>#}
+							</td>
+						</tr>
+						{% endfor %}
+						</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- END BORDERED TABLE PORTLET-->
+		</div>
+	</div>
+</div>
+<div class="modal-footer">
+	<button type="button" class="btn default" data-dismiss="modal">Close</button>
+</div>

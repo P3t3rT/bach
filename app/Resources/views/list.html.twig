@@ -1,7 +1,7 @@
 {% extends "::layout.html.twig" %}
 
 {% block title %}Blank page | overzicht{% endblock %}
-{% block pagetitle %}Johann Sebastian Bach<small> Audio catalogus</small>{% endblock pagetitle %}
+{% block pagetitle %}<span class="font-green-sharp">Johann Sebastian Bach</span><small> Audio catalogus</small>{% endblock pagetitle %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -90,6 +90,7 @@
             <!-- End: life time stats -->
         </div>
     </div>
+    {% include  '::list_modals.html.twig'%}
     <!-- END PAGE CONTENT INNER -->
 {% endblock content%}
 

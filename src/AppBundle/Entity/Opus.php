@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Opus
  *
- * @ORM\Table()
+ * @ORM\Table(indexes={@ORM\Index(name="opus_idx", columns={"opus"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\OpusRepository")
  */
 class Opus
@@ -54,6 +54,16 @@ class Opus
      * @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
      */
     protected $theme;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Part", mappedBy="opus")
+     */
+    protected $part;
+
+    public function __construct()
+    {
+        $this->$part = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -178,5 +188,44 @@ class Opus
     public function getTheme()
     {
         return $this->theme;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPart()
+    {
+        return $this->part;
+    }
+
+    /**
+     * @param mixed $part
+     */
+    public function setPart($part)
+    {
+        $this->part = $part;
+    }
+
+    /**
+     * Add part
+     *
+     * @param \AppBundle\Entity\Part $part
+     * @return Opus
+     */
+    public function addPart(\AppBundle\Entity\Part $part)
+    {
+        $this->part[] = $part;
+
+        return $this;
+    }
+
+    /**
+     * Remove part
+     *
+     * @param \AppBundle\Entity\Part $part
+     */
+    public function removePart(\AppBundle\Entity\Part $part)
+    {
+        $this->part->removeElement($part);
     }
 }

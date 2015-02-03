@@ -19,11 +19,24 @@ class BachRepository extends EntityRepository
                ->from('AppBundle:Bach','b')
                ->where('b.id > 1560')
                ->andWhere('b.part = 1')
-//               ->setParameter('id', $id)
                ->getQuery()
                ->getResult();
 
         return $query;
+    }
+
+    public function findParts($opus)
+    {
+        $query = $this->_em->createQueryBuilder()
+               ->select('b')
+               ->from('AppBundle:Bach','b')
+               ->where("SUBSTRING(b.title,1,7) = '$opus'")
+//               ->andWhere('b.part = 1')
+               ->getQuery();
+
+
+
+        return $query->getResult();
     }
 
 }
