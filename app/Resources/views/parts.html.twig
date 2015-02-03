@@ -39,9 +39,8 @@
 								 {{ part.parttype }}
 							</td>
 							<td>
-								<a class="btn btn-xs default" data-toggle="modal" href="#stack2"><i class="fa fa-music"></i> Audio</a>
-								{#<span class="label label-sm label-success">#}
-								{#Approved </span>#}
+								{#<a class="btn btn-xs default" data-toggle="modal" href="#stack2"><i class="fa fa-music"></i> Audio</a>#}
+								<a class="btn btn-xs default" data-toggle="modal" data-target="#stack2" href="{{ path('bach_audio', {'partid': part.partid }) }}"><i class="fa fa-music"></i> Audio</a>
 							</td>
 						</tr>
 						{% endfor %}

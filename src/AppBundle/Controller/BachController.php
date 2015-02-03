@@ -114,7 +114,7 @@ class BachController extends Controller
      * @Route("/parts/{opus}", name="bach_parts", options={"expose"=true}, requirements={"opus" = "\d+"}, defaults={"opus" = 1})
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
     public function partAction(Request $request)
     {
@@ -151,6 +151,7 @@ class BachController extends Controller
         if ($parts) {
             $i=0;
             foreach ($parts as $part) {
+                $data[$i]['partid']     = $part->getId();
                 $data[$i]['partnumber'] = $part->getPartnumber();
                 $data[$i]['title']      = $part->getTitle();
                 $data[$i]['parttype']   = $part->getParttype();
@@ -158,7 +159,57 @@ class BachController extends Controller
             }
         }
 
-        $tmp = $data;
         return $this->render('::parts.html.twig', array('parts' => $data, 'head' => $head));
+    }
+
+    /**
+     * @Route("/audio/{partid}", name="bach_audio", options={"expose"=true}, requirements={"partid" = "\d+"}, defaults={"partid" = 1})
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function audioAction(Request $request)
+    {
+        $partId= $request->get('partid');
+        $data = array();
+
+        try {
+            $part = $this->getDoctrine()
+                         ->getRepository('AppBundle:Part')
+                         ->find($partId);
+
+        } catch (ORMException $e) {
+            $logger = $this->get('logger');
+            $logger->error($e->getMessage());
+            //todo: proper error messag to screen
+            //            return new Response('Error: '.$e->getMessage());
+        }
+
+        $part ? $head['title'] = $part->getTitle() : $head['title'] = 'Unknown';
+        $part ? $head['partnumber'] = $part->getPartnumber() : $head['partnumber'] = '';
+
+        try {
+            $opus = $this->getDoctrine()
+                         ->getRepository('AppBundle:Opus')
+                         ->find($part->getOpus());
+
+        } catch (ORMException $e) {
+            $logger = $this->get('logger');
+            $logger->error($e->getMessage());
+            //todo: proper error messag to screen
+            //            return new Response('Error: '.$e->getMessage());
+        }
+
+        $opus ? $head['opus'] = $opus->getOpus() : $head['opus'] = 'Unknown';
+
+//        todo: replace this by actual data:
+
+        $data['Album']          = 'Bach 2000 - vol 1 disc 1';
+        $data['Track']          = '1';
+        $data['Dirigent']       = 'Nikolaus Harnoncourt';
+        $data['Ensemble']       = 'Concentus musicus Wien | Wiener Sängerknaben, Chorus Viennensis (Chorus master: Hans Gillesberger)';
+        $data['Uitvoerende(n)'] = 'Soloist of the Wiener Sängerknaben, soprano | Paul Esswood, alto | Kurt Equiluz, tenor | Max van Egmond, bass';
+
+        return $this->render('::audio.html.twig', array('data' => $data, 'head' => $head));
     }
 }
