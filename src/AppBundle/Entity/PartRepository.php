@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMapping;
 
 /**
  * PartRepository
@@ -12,4 +13,20 @@ use Doctrine\ORM\EntityRepository;
  */
 class PartRepository extends EntityRepository
 {
+    //todo: remove method when conversion done
+    public function getPartsJoined()
+    {
+        $query = $this->_em->createQuery(
+            'SELECT p, o.opus, b.conductor, b.ensemble, b.performer, b.date, b.album, b.track
+            FROM AppBundle:Part p
+             LEFT JOIN AppBundle:Opus o
+               WHERE p.opus = o.id
+            LEFT JOIN AppBundle:Bach b
+            WHERE SUBSTRING(b.title,1,7) = o.opus AND p.partnumber = b.part'
+
+        );
+
+        return $query->getResult();
+    }
+
 }

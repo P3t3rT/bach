@@ -38,7 +38,7 @@ class Audiotrack
     /**
      * @var string
      *
-     * @ORM\Column(name="performer", type="string", length=255)
+     * @ORM\Column(name="performer", type="string", length=255, nullable=true)
      */
     private $performer;
 

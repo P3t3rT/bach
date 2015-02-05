@@ -202,13 +202,25 @@ class BachController extends Controller
 
         $opus ? $head['opus'] = $opus->getOpus() : $head['opus'] = 'Unknown';
 
+        try {
+            $track = $this->getDoctrine()
+                          ->getRepository('AppBundle:Audiotrack')
+                          ->findOneBy(array('part' => $partId));
+
+        } catch (ORMException $e) {
+            $logger = $this->get('logger');
+            $logger->error($e->getMessage());
+            //todo: proper error messag to screen
+            //            return new Response('Error: '.$e->getMessage());
+        }
+
 //        todo: replace this by actual data:
 
-        $data['Album']          = 'Bach 2000 - vol 1 disc 1';
-        $data['Track']          = '1';
-        $data['Dirigent']       = 'Nikolaus Harnoncourt';
-        $data['Ensemble']       = 'Concentus musicus Wien | Wiener Sängerknaben, Chorus Viennensis (Chorus master: Hans Gillesberger)';
-        $data['Uitvoerende(n)'] = 'Soloist of the Wiener Sängerknaben, soprano | Paul Esswood, alto | Kurt Equiluz, tenor | Max van Egmond, bass';
+        $data['Album']          = $track->getAlbum();
+        $data['Track']          = $track->getTrack();
+        $data['Dirigent']       = $track->getConductor();
+        $data['Ensemble']       = $track->getEnsemble();
+        $data['Uitvoerende(n)'] = $track->getPerformer();
 
         return $this->render('::audio.html.twig', array('data' => $data, 'head' => $head));
     }

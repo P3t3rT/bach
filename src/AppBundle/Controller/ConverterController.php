@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Audiotrack;
 use AppBundle\Entity\Opus;
 use AppBundle\Entity\Part;
 use Doctrine\ORM\ORMException;
@@ -168,5 +169,40 @@ class ConverterController extends Controller
 
             return new Response('Error: '.$e->getMessage());
         }
+    }
+
+    /**
+     * @Route("/buildaudio")
+     *
+     * @return Response
+     */
+    public function buildAudioAction()
+    {
+        $em = $this->getDoctrine()
+                   ->getManager();
+
+        $recs = $this->getDoctrine()
+                     ->getRepository('AppBundle:Part')
+                     ->getPartsJoined();
+
+
+        foreach ($recs as $rec) {
+            $at = new Audiotrack();
+
+            $at->setAlbum($rec['album']);
+            $at->setConductor($rec['conductor']);
+            $at->setEnsemble($rec['ensemble']);
+            $at->setPerformer($rec['performer']);
+            $at->setRecordingYear($rec['date']);
+            $at->setTrack($rec['track']);
+            $at->setTrackType('local cd');
+            $at->setPart($rec[0]);
+
+            $em->persist($at);
+
+        }
+        $em->flush();
+
+        return new Response('audio for Cantate done');
     }
 }
