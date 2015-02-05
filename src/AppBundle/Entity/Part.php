@@ -63,7 +63,7 @@ class Part
 
     public function __construct()
     {
-        $this->$part = new ArrayCollection();
+        $this->part = new ArrayCollection();
     }
 
 

@@ -25,6 +25,31 @@ class OpusRepository extends EntityRepository
         return $query;
     }
 
+    public function findMotet()
+    {
+        $query = $this->_em->createQueryBuilder()
+                           ->select('c')
+                           ->from('AppBundle:Opus', 'c')
+                           ->where('c.theme = 2')
+                           ->getQuery()
+                           ->getResult();
+
+        return $query;
+    }
+
+    public function findTheme($theme)
+    {
+        $query = $this->_em->createQueryBuilder()
+                           ->select('c')
+                           ->from('AppBundle:Opus', 'c')
+                           ->where('c.theme = :theme')
+                            ->setParameter('theme', $theme)
+                           ->getQuery()
+                           ->getResult();
+
+        return $query;
+    }
+
     /**
      * Find the selected Opus records
      *

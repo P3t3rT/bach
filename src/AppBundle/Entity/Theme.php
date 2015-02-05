@@ -36,7 +36,7 @@ class Theme
 
     public function __construct()
     {
-        $this->$opus = new ArrayCollection();
+        $this->opus = new ArrayCollection();
     }
 
 
