@@ -1,49 +1,40 @@
 <?php
-
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Theme
- *
- * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\ThemeRepository")
  */
 class Theme
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true, name="description")
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Opus", mappedBy="theme")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Opus", mappedBy="theme")
      */
-    protected $opus;
-
+    private $opus;
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->opus = new ArrayCollection();
+        $this->opus = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -66,7 +57,7 @@ class Theme
     /**
      * Get description
      *
-     * @return string
+     * @return string 
      */
     public function getDescription()
     {
@@ -76,10 +67,10 @@ class Theme
     /**
      * Add opus
      *
-     * @param Opus $opus
+     * @param \AppBundle\Entity\Opus $opus
      * @return Theme
      */
-    public function addOpus(Opus $opus)
+    public function addOpus(\AppBundle\Entity\Opus $opus)
     {
         $this->opus[] = $opus;
 
@@ -89,9 +80,9 @@ class Theme
     /**
      * Remove opus
      *
-     * @param Opus $opus
+     * @param \AppBundle\Entity\Opus $opus
      */
-    public function removeOpus(Opus $opus)
+    public function removeOpus(\AppBundle\Entity\Opus $opus)
     {
         $this->opus->removeElement($opus);
     }
@@ -99,7 +90,7 @@ class Theme
     /**
      * Get opus
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getOpus()
     {

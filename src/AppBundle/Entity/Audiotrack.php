@@ -1,85 +1,64 @@
 <?php
-
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Audiotrack
- *
- * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\AudiotrackRepository")
  */
 class Audiotrack
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="conductor", type="string", length=128)
+     * @ORM\Column(type="string", length=128, nullable=true, name="conductor")
      */
     private $conductor;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="ensemble", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true, name="ensemble")
      */
     private $ensemble;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="performer", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, name="performer")
      */
     private $performer;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="recording_year", type="string", length=4)
+     * @ORM\Column(type="string", length=4, nullable=true, name="recording_year")
      */
     private $recordingYear;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="album", type="string", length=128)
+     * @ORM\Column(type="string", length=128, nullable=true, name="album")
      */
     private $album;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="track", type="string", length=4)
+     * @ORM\Column(type="string", length=4, nullable=true, name="track")
      */
     private $track;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="track_type", type="string", length=128)
+     * @ORM\Column(type="string", length=128, nullable=true, name="track_type")
      */
     private $trackType;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Part", inversedBy="audiotrack")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Part", inversedBy="part")
      * @ORM\JoinColumn(name="part_id", referencedColumnName="id")
      */
-    protected $part;
+    private $part;
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -102,7 +81,7 @@ class Audiotrack
     /**
      * Get conductor
      *
-     * @return string
+     * @return string 
      */
     public function getConductor()
     {
@@ -125,7 +104,7 @@ class Audiotrack
     /**
      * Get ensemble
      *
-     * @return string
+     * @return string 
      */
     public function getEnsemble()
     {
@@ -148,7 +127,7 @@ class Audiotrack
     /**
      * Get performer
      *
-     * @return string
+     * @return string 
      */
     public function getPerformer()
     {
@@ -171,7 +150,7 @@ class Audiotrack
     /**
      * Get recordingYear
      *
-     * @return string
+     * @return string 
      */
     public function getRecordingYear()
     {
@@ -194,7 +173,7 @@ class Audiotrack
     /**
      * Get album
      *
-     * @return string
+     * @return string 
      */
     public function getAlbum()
     {
@@ -217,7 +196,7 @@ class Audiotrack
     /**
      * Get track
      *
-     * @return string
+     * @return string 
      */
     public function getTrack()
     {
@@ -240,7 +219,7 @@ class Audiotrack
     /**
      * Get trackType
      *
-     * @return string
+     * @return string 
      */
     public function getTrackType()
     {
@@ -250,10 +229,10 @@ class Audiotrack
     /**
      * Set part
      *
-     * @param Part $part
+     * @param \AppBundle\Entity\Part $part
      * @return Audiotrack
      */
-    public function setPart(Part $part = null)
+    public function setPart(\AppBundle\Entity\Part $part = null)
     {
         $this->part = $part;
 
@@ -263,7 +242,7 @@ class Audiotrack
     /**
      * Get part
      *
-     * @return \AppBundle\Entity\Part
+     * @return \AppBundle\Entity\Part 
      */
     public function getPart()
     {

@@ -1,76 +1,61 @@
 <?php
-
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Part
- *
- * @ORM\Table()
  * @ORM\Entity(repositoryClass="AppBundle\Entity\PartRepository")
  */
 class Part
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="partnumber", type="integer")
+     * @ORM\Column(type="integer", nullable=true, name="partnumber")
      */
     private $partnumber;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="parttype", type="string", length=45, nullable=true)
+     * @ORM\Column(type="string", length=45, nullable=true, name="parttype")
      */
     private $parttype;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true, name="title")
      */
     private $title;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="strength", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, name="strength")
      */
     private $strength;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Opus", inversedBy="part")
-     * @ORM\JoinColumn(name="opus_id", referencedColumnName="id")
-     */
-    protected $opus;
-
-    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Audiotrack", mappedBy="part")
      */
-    protected $part;
+    private $part;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Opus", inversedBy="part")
+     * @ORM\JoinColumn(name="opus_id", referencedColumnName="id")
+     */
+    private $opus;
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->part = new ArrayCollection();
+        $this->part = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -93,7 +78,7 @@ class Part
     /**
      * Get partnumber
      *
-     * @return integer
+     * @return integer 
      */
     public function getPartnumber()
     {
@@ -116,7 +101,7 @@ class Part
     /**
      * Get parttype
      *
-     * @return string
+     * @return string 
      */
     public function getParttype()
     {
@@ -139,7 +124,7 @@ class Part
     /**
      * Get title
      *
-     * @return string
+     * @return string 
      */
     public function getTitle()
     {
@@ -162,7 +147,7 @@ class Part
     /**
      * Get strength
      *
-     * @return string
+     * @return string 
      */
     public function getStrength()
     {
@@ -170,28 +155,12 @@ class Part
     }
 
     /**
-     * @return mixed
-     */
-    public function getOpus()
-    {
-        return $this->opus;
-    }
-
-    /**
-     * @param mixed $opus
-     */
-    public function setOpus($opus)
-    {
-        $this->opus = $opus;
-    }
-
-    /**
      * Add part
      *
-     * @param Audiotrack $part
+     * @param \AppBundle\Entity\Audiotrack $part
      * @return Part
      */
-    public function addPart(Audiotrack $part)
+    public function addPart(\AppBundle\Entity\Audiotrack $part)
     {
         $this->part[] = $part;
 
@@ -201,9 +170,9 @@ class Part
     /**
      * Remove part
      *
-     * @param Audiotrack $part
+     * @param \AppBundle\Entity\Audiotrack $part
      */
-    public function removePart(Audiotrack $part)
+    public function removePart(\AppBundle\Entity\Audiotrack $part)
     {
         $this->part->removeElement($part);
     }
@@ -211,10 +180,33 @@ class Part
     /**
      * Get part
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return \Doctrine\Common\Collections\Collection 
      */
     public function getPart()
     {
         return $this->part;
+    }
+
+    /**
+     * Set opus
+     *
+     * @param \AppBundle\Entity\Opus $opus
+     * @return Part
+     */
+    public function setOpus(\AppBundle\Entity\Opus $opus = null)
+    {
+        $this->opus = $opus;
+
+        return $this;
+    }
+
+    /**
+     * Get opus
+     *
+     * @return \AppBundle\Entity\Opus 
+     */
+    public function getOpus()
+    {
+        return $this->opus;
     }
 }

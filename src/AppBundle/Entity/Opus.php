@@ -1,75 +1,62 @@
 <?php
-
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Opus
- *
- * @ORM\Table(indexes={@ORM\Index(name="opus_idx", columns={"opus"})})
  * @ORM\Entity(repositoryClass="AppBundle\Entity\OpusRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="opus_idx", columns={"opus"})})
  */
 class Opus
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="opus", type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true, name="opus")
      */
     private $opus;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true, name="title")
      */
     private $title;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_first_performance", type="date", nullable=true)
+     * @ORM\Column(type="date", nullable=true, name="date_first_performance")
      */
     private $dateFirstPerformance;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="text_url", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true, name="text_url")
      */
     private $textUrl;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Theme", inversedBy="opus")
-     * @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Part", mappedBy="opus")
      */
-    protected $theme;
+    private $part;
 
     /**
-     * @ORM\OneToMany(targetEntity="Part", mappedBy="opus")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Theme", inversedBy="opus")
+     * @ORM\JoinColumn(name="theme_id", referencedColumnName="id")
      */
-    protected $part;
-
+    private $theme;
+    /**
+     * Constructor
+     */
     public function __construct()
     {
-        $this->part = new ArrayCollection();
+        $this->part = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer
+     * @return integer 
      */
     public function getId()
     {
@@ -92,7 +79,7 @@ class Opus
     /**
      * Get opus
      *
-     * @return string
+     * @return string 
      */
     public function getOpus()
     {
@@ -115,7 +102,7 @@ class Opus
     /**
      * Get title
      *
-     * @return string
+     * @return string 
      */
     public function getTitle()
     {
@@ -138,7 +125,7 @@ class Opus
     /**
      * Get dateFirstPerformance
      *
-     * @return \DateTime
+     * @return \DateTime 
      */
     public function getDateFirstPerformance()
     {
@@ -161,50 +148,11 @@ class Opus
     /**
      * Get textUrl
      *
-     * @return string
+     * @return string 
      */
     public function getTextUrl()
     {
         return $this->textUrl;
-    }
-
-    /**
-     * Set theme
-     *
-     * @param \AppBundle\Entity\Theme $theme
-     * @return Opus
-     */
-    public function setTheme(Theme $theme = null)
-    {
-        $this->theme = $theme;
-
-        return $this;
-    }
-
-    /**
-     * Get theme
-     *
-     * @return \AppBundle\Entity\Theme
-     */
-    public function getTheme()
-    {
-        return $this->theme;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPart()
-    {
-        return $this->part;
-    }
-
-    /**
-     * @param mixed $part
-     */
-    public function setPart($part)
-    {
-        $this->part = $part;
     }
 
     /**
@@ -213,7 +161,7 @@ class Opus
      * @param \AppBundle\Entity\Part $part
      * @return Opus
      */
-    public function addPart(Part $part)
+    public function addPart(\AppBundle\Entity\Part $part)
     {
         $this->part[] = $part;
 
@@ -225,8 +173,41 @@ class Opus
      *
      * @param \AppBundle\Entity\Part $part
      */
-    public function removePart(Part $part)
+    public function removePart(\AppBundle\Entity\Part $part)
     {
         $this->part->removeElement($part);
+    }
+
+    /**
+     * Get part
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPart()
+    {
+        return $this->part;
+    }
+
+    /**
+     * Set theme
+     *
+     * @param \AppBundle\Entity\Theme $theme
+     * @return Opus
+     */
+    public function setTheme(\AppBundle\Entity\Theme $theme = null)
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    /**
+     * Get theme
+     *
+     * @return \AppBundle\Entity\Theme 
+     */
+    public function getTheme()
+    {
+        return $this->theme;
     }
 }

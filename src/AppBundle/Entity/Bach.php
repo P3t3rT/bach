@@ -1,97 +1,79 @@
 <?php
-
 namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping AS ORM;
 
 /**
- * Bach
- *
- * @ORM\Table(name="Bach")
  * @ORM\Entity(repositoryClass="AppBundle\Entity\BachRepository")
+ * @ORM\Table(name="Bach")
  */
 class Bach
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     */
-    private $title;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="artist", type="string", length=255, nullable=true)
-     */
-    private $artist;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="conductor", type="string", length=255, nullable=true)
-     */
-    private $conductor;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="opus", type="string", length=10, nullable=true)
-     */
-    private $opus;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="date", type="string", length=20, nullable=true)
-     */
-    private $date;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="album", type="string", length=128, nullable=true)
-     */
-    private $album;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="track", type="integer", nullable=true)
-     */
-    private $track;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ensemble", type="string", length=255, nullable=true)
-     */
-    private $ensemble;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="performer", type="string", length=255, nullable=true)
-     */
-    private $performer;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="part", type="integer", nullable=true)
-     */
-    private $part;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer", name="id")
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false, name="title")
+     */
+    private $title;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, name="artist")
+     */
+    private $artist;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, name="conductor")
+     */
+    private $conductor;
+
+    /**
+     * @ORM\Column(type="string", length=10, nullable=true, name="opus")
+     */
+    private $opus;
+
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true, name="date")
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(type="string", length=128, nullable=true, name="album")
+     */
+    private $album;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="track")
+     */
+    private $track;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, name="ensemble")
+     */
+    private $ensemble;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true, name="performer")
+     */
+    private $performer;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, name="part")
+     */
+    private $part;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * Set title
@@ -109,7 +91,7 @@ class Bach
     /**
      * Get title
      *
-     * @return string
+     * @return string 
      */
     public function getTitle()
     {
@@ -132,7 +114,7 @@ class Bach
     /**
      * Get artist
      *
-     * @return string
+     * @return string 
      */
     public function getArtist()
     {
@@ -155,7 +137,7 @@ class Bach
     /**
      * Get conductor
      *
-     * @return string
+     * @return string 
      */
     public function getConductor()
     {
@@ -178,7 +160,7 @@ class Bach
     /**
      * Get opus
      *
-     * @return string
+     * @return string 
      */
     public function getOpus()
     {
@@ -201,7 +183,7 @@ class Bach
     /**
      * Get date
      *
-     * @return string
+     * @return string 
      */
     public function getDate()
     {
@@ -224,7 +206,7 @@ class Bach
     /**
      * Get album
      *
-     * @return string
+     * @return string 
      */
     public function getAlbum()
     {
@@ -247,7 +229,7 @@ class Bach
     /**
      * Get track
      *
-     * @return integer
+     * @return integer 
      */
     public function getTrack()
     {
@@ -270,7 +252,7 @@ class Bach
     /**
      * Get ensemble
      *
-     * @return string
+     * @return string 
      */
     public function getEnsemble()
     {
@@ -293,7 +275,7 @@ class Bach
     /**
      * Get performer
      *
-     * @return string
+     * @return string 
      */
     public function getPerformer()
     {
@@ -316,20 +298,10 @@ class Bach
     /**
      * Get part
      *
-     * @return integer
+     * @return integer 
      */
     public function getPart()
     {
         return $this->part;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }
