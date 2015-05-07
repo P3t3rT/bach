@@ -150,7 +150,7 @@ class ConverterController extends Controller
             $em       = $this->getDoctrine()
                              ->getManager();
             $opusrecs = $em->getRepository('AppBundle:Opus')
-                           ->findTheme(3);
+                           ->findTheme(4);
 
             foreach ($opusrecs as $opus) {
                 $bachrecs = $em->getRepository('AppBundle:Bach')
@@ -158,20 +158,21 @@ class ConverterController extends Controller
                 foreach ($bachrecs as $bach) {
                     $pos = strpos($bach->getTitle(), ' ');
                     $part1 = trim(substr($bach->getTitle(),0,$pos));
-                    if ($part1 <> 'BWV0242') {
+                    if ($part1 <> 'BWV0249') {
                         continue;
                     }
                     $part2 = trim(substr($bach->getTitle(),$pos));
-                    $part3 = trim(str_replace('Sanctus in D Major','Sanctus',$part2));
+                    $part3 = trim(str_replace('Easter Oratorio','',$part2));
                     $part4 = trim(trim($part3, "0..9"));
+//                    $part4 = trim(trim($part4, "0..9"));
 
-//                    $pos = strpos($part2, ' ');
-//                    $part3 = substr($part2,0,$pos);
-//                    $part4= trim(substr($part2,$pos));
+                    $pos = strpos($part4, '"');
+                    $part5 = trim(substr($part4,0,$pos));
+//                    $part4= trim(substr($part4,$pos));
 //
-//                    $pos = strpos($part4, '"');
+                    $pos = strpos($part4, '"');
 //                    $part5 = substr($part4,0,$pos);
-//                    $part6= trim(substr($part4,$pos));
+                    $part6= trim(substr($part4,$pos));
 
 //                    if ($part6 == '1 Sinfonia' ||
 //                        $part6 == '1 Sonatina' ||
@@ -185,7 +186,7 @@ class ConverterController extends Controller
 //                        $part6 = $opus->getTitle();
 //                    }
 
-//                    $part6 = trim($part6, '"');
+                    $part6 = trim($part6, '"');
 //                    $aStr = explode(',',$part6);
 //                    $part6 = implode(", ",$aStr);
 
@@ -194,8 +195,8 @@ class ConverterController extends Controller
                     $part = new Part();
 
                     $part->setPartnumber($bach->getPart());
-                    $part->setTitle($part4);
-                    $part->setParttype('');
+                    $part->setTitle($part6);
+                    $part->setParttype($part5);
                     $part->setOpus($opus);
 
                     $em->persist($part);
@@ -204,7 +205,7 @@ class ConverterController extends Controller
 
             $em->flush();
 
-            return new Response('part for Mis done');
+            return new Response('part for Oratorium done');
 
         } catch (ORMException $e) {
             $logger = $this->get('logger');
@@ -246,7 +247,7 @@ class ConverterController extends Controller
         }
         $em->flush();
 
-        return new Response('audio for Mis done');
+        return new Response('audio for Oratorium done');
     }
 
     /**
@@ -274,4 +275,26 @@ class ConverterController extends Controller
 
        return new Response('cleaning for Track done');
    }
+
+    /**
+      * @Route("/resequence")
+      *
+      * @return Response
+      */
+     public function resequenceAction()
+     {
+         $em = $this->getDoctrine()
+                    ->getManager();
+         $recs = $this->getDoctrine()
+                      ->getRepository('AppBundle:Bach')
+                      ->find248();
+         $i = 0;
+         foreach ($recs as $rec) {
+            $i++;
+            $rec->setPart($i);
+        }
+        $em->flush();
+         return new Response('done');
+     }
+
 }

@@ -30,7 +30,7 @@ class BachRepository extends EntityRepository
         $query = $this->_em->createQueryBuilder()
                ->select('b')
                ->from('AppBundle:Bach','b')
-               ->where("SUBSTRING(b.title,1,7) = '$opus'")
+               ->where("SUBSTRING(b.title,1,8) = '$opus'")
 //               ->andWhere('b.part = 1')
                ->getQuery();
 
@@ -38,5 +38,19 @@ class BachRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function find248()
+    {
+        $query = $this->_em->createQueryBuilder()
+               ->select('b')
+               ->from('AppBundle:Bach','b')
+               ->where("b.opus = 'BWV 248'")
+               ->orderBy('b.id')
+               ->getQuery();
+
+        return $query->getResult();
+    }
+
+
 
 }
