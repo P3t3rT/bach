@@ -150,7 +150,7 @@ class ConverterController extends Controller
             $em       = $this->getDoctrine()
                              ->getManager();
             $opusrecs = $em->getRepository('AppBundle:Opus')
-                           ->findTheme(4);
+                           ->findTheme(5);
 
             foreach ($opusrecs as $opus) {
                 $bachrecs = $em->getRepository('AppBundle:Bach')
@@ -158,11 +158,11 @@ class ConverterController extends Controller
                 foreach ($bachrecs as $bach) {
                     $pos = strpos($bach->getTitle(), ' ');
                     $part1 = trim(substr($bach->getTitle(),0,$pos));
-                    if ($part1 <> 'BWV0249') {
-                        continue;
-                    }
+//                    if ($part1 <> 'BWV0249') {
+//                        continue;
+//                    }
                     $part2 = trim(substr($bach->getTitle(),$pos));
-                    $part3 = trim(str_replace('Easter Oratorio','',$part2));
+                    $part3 = trim(str_replace('Choräle','',$part2));
                     $part4 = trim(trim($part3, "0..9"));
 //                    $part4 = trim(trim($part4, "0..9"));
 
@@ -174,21 +174,9 @@ class ConverterController extends Controller
 //                    $part5 = substr($part4,0,$pos);
                     $part6= trim(substr($part4,$pos));
 
-//                    if ($part6 == '1 Sinfonia' ||
-//                        $part6 == '1 Sonatina' ||
-//                        $part6 == '1 Sonata' ||
-//                        $part6 == '1 Concerto' ||
-//                        $part6 == '07 Ritornello' ||
-//                        $part6 == '01 Ouvertüre' ||
-//                        $part6 == '01 Marche'
-//                    ) {
-//                        $part5 = $part6;
-//                        $part6 = $opus->getTitle();
-//                    }
-
                     $part6 = trim($part6, '"');
-//                    $aStr = explode(',',$part6);
-//                    $part6 = implode(", ",$aStr);
+                    $aStr = explode(',',$part6);
+                    $part6 = implode(", ",$aStr);
 
 
 
@@ -203,9 +191,9 @@ class ConverterController extends Controller
                 }
             }
 
-            $em->flush();
+//            $em->flush();
 
-            return new Response('part for Oratorium done');
+            return new Response('part for Koralen done');
 
         } catch (ORMException $e) {
             $logger = $this->get('logger');
