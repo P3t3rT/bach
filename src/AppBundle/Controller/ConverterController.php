@@ -109,7 +109,7 @@ class ConverterController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             $recs = $em->getRepository('AppBundle:Opus')
-                       ->findTheme(3);
+                       ->findTheme(6);
 
             foreach ($recs as $rec) {
                 $aStr = array();
@@ -121,9 +121,14 @@ class ConverterController extends Controller
 
                     $part1 = trim(substr($part,0,$pos));
                     $part2 = trim(substr($part,$pos));
-                    $part3 = trim($part2, '"');
+                    $pos = strpos($part2, ' ');
 
-                    $rec->setTitle($part3);
+                    $part3 = trim(substr($part2,0,$pos));
+                    $part4 = trim(substr($part2,$pos));
+
+                    $part5 = trim($part4, '"');
+
+                    $rec->setTitle($part5);
                 }
             }
 
@@ -150,7 +155,7 @@ class ConverterController extends Controller
             $em       = $this->getDoctrine()
                              ->getManager();
             $opusrecs = $em->getRepository('AppBundle:Opus')
-                           ->findTheme(5);
+                           ->findTheme(6);
 
             foreach ($opusrecs as $opus) {
                 $bachrecs = $em->getRepository('AppBundle:Bach')
@@ -162,7 +167,7 @@ class ConverterController extends Controller
 //                        continue;
 //                    }
                     $part2 = trim(substr($bach->getTitle(),$pos));
-                    $part3 = trim(str_replace('Choräle','',$part2));
+                    $part3 = trim(str_replace('Sacred Song','',$part2));
                     $part4 = trim(trim($part3, "0..9"));
 //                    $part4 = trim(trim($part4, "0..9"));
 
@@ -191,9 +196,9 @@ class ConverterController extends Controller
                 }
             }
 
-//            $em->flush();
+            $em->flush();
 
-            return new Response('part for Koralen done');
+            return new Response('part for Aria done');
 
         } catch (ORMException $e) {
             $logger = $this->get('logger');
@@ -235,7 +240,7 @@ class ConverterController extends Controller
         }
         $em->flush();
 
-        return new Response('audio for Oratorium done');
+        return new Response('audio for Aria done');
     }
 
     /**

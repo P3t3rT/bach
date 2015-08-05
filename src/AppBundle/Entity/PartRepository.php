@@ -22,7 +22,7 @@ class PartRepository extends EntityRepository
                WITH p.opus = o.id
             LEFT JOIN AppBundle:Bach b
                WITH SUBSTRING(b.title,1,8) = o.opus AND p.partnumber = b.part
-            WHERE o.theme = 4'
+            WHERE o.theme = 6'
 
         );
 
