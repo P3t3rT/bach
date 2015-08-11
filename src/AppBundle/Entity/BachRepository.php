@@ -30,7 +30,7 @@ class BachRepository extends EntityRepository
         $query = $this->_em->createQueryBuilder()
                ->select('b')
                ->from('AppBundle:Bach','b')
-               ->where("SUBSTRING(b.title,1,8) = '$opus'")
+               ->where("SUBSTRING(b.title,1,11) = '$opus'")
 //               ->andWhere('b.part = 1')
                ->getQuery();
 

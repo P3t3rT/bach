@@ -16,7 +16,7 @@ class Opus
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true, name="opus")
+     * @ORM\Column(type="string", length=11, nullable=true, name="opus")
      */
     private $opus;
 
@@ -56,7 +56,7 @@ class Opus
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -79,7 +79,7 @@ class Opus
     /**
      * Get opus
      *
-     * @return string 
+     * @return string
      */
     public function getOpus()
     {
@@ -102,7 +102,7 @@ class Opus
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -125,7 +125,7 @@ class Opus
     /**
      * Get dateFirstPerformance
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getDateFirstPerformance()
     {
@@ -148,7 +148,7 @@ class Opus
     /**
      * Get textUrl
      *
-     * @return string 
+     * @return string
      */
     public function getTextUrl()
     {
@@ -181,7 +181,7 @@ class Opus
     /**
      * Get part
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPart()
     {
@@ -204,7 +204,7 @@ class Opus
     /**
      * Get theme
      *
-     * @return \AppBundle\Entity\Theme 
+     * @return \AppBundle\Entity\Theme
      */
     public function getTheme()
     {
