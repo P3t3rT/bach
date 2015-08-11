@@ -35,7 +35,7 @@ class Part
     private $strength;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Audiotrack", mappedBy="part")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Audiotrack", mappedBy="part", cascade={"remove"})
      */
     private $part;
 
@@ -55,7 +55,7 @@ class Part
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -78,7 +78,7 @@ class Part
     /**
      * Get partnumber
      *
-     * @return integer 
+     * @return integer
      */
     public function getPartnumber()
     {
@@ -101,7 +101,7 @@ class Part
     /**
      * Get parttype
      *
-     * @return string 
+     * @return string
      */
     public function getParttype()
     {
@@ -124,7 +124,7 @@ class Part
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -147,7 +147,7 @@ class Part
     /**
      * Get strength
      *
-     * @return string 
+     * @return string
      */
     public function getStrength()
     {
@@ -180,7 +180,7 @@ class Part
     /**
      * Get part
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPart()
     {
@@ -203,7 +203,7 @@ class Part
     /**
      * Get opus
      *
-     * @return \AppBundle\Entity\Opus 
+     * @return \AppBundle\Entity\Opus
      */
     public function getOpus()
     {

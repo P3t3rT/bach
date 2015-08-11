@@ -12,45 +12,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class BachRepository extends EntityRepository
 {
-    public function findTitles()
-    {
-        $query = $this->_em->createQueryBuilder()
-               ->select('b')
-               ->from('AppBundle:Bach','b')
-               ->where('b.id > 1560')
-               ->andWhere('b.part = 1')
-               ->getQuery()
-               ->getResult();
-
-        return $query;
-    }
-
-    public function findParts($opus)
-    {
-        $query = $this->_em->createQueryBuilder()
-               ->select('b')
-               ->from('AppBundle:Bach','b')
-               ->where("SUBSTRING(b.title,1,11) = '$opus'")
+//    public function findTitles()
+//    {
+//        $query = $this->_em->createQueryBuilder()
+//               ->select('b')
+//               ->from('AppBundle:Bach','b')
+//               ->where('b.id > 1560')
 //               ->andWhere('b.part = 1')
-               ->getQuery();
+//               ->getQuery()
+//               ->getResult();
+//
+//        return $query;
+//    }
 
-
-
-        return $query->getResult();
-    }
-
-    public function find248()
+    public function findParts($opus, $length)
     {
         $query = $this->_em->createQueryBuilder()
                ->select('b')
                ->from('AppBundle:Bach','b')
-               ->where("b.opus = 'BWV 248'")
-               ->orderBy('b.id')
+               ->where("SUBSTRING(b.title,1,$length) = '$opus'")
+               ->andWhere("SUBSTRING(b.title,$length+1,1) = ' '")
                ->getQuery();
 
         return $query->getResult();
     }
-
-
 
 }

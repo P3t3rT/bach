@@ -36,7 +36,7 @@ class Opus
     private $textUrl;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Part", mappedBy="opus")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Part", mappedBy="opus", cascade={"remove"})
      */
     private $part;
 

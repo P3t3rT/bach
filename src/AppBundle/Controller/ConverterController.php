@@ -12,93 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 class ConverterController extends Controller
 {
     /**
-     * @Route("/convert")
-     *
-     */
-    public function convertAction()
-    {
-        return $this->render('::blank_page.html.twig');
-    }
-
-//    /**
-//     * @Route("/bachtoopus")
-//     *
-//     * @return \Symfony\Component\HttpFoundation\Response
-//     */
-//    public function bachToOpusAction()
-//    {
-//        try {
-//            $recs = $this->getDoctrine()
-//                         ->getRepository('AppBundle:Bach')
-//                         ->findTitles();
-//
-//            $em = $this->getDoctrine()->getManager();
-//
-//            foreach ($recs as $rec) {
-////                $opus = new Opus();
-//
-//                $pos = strpos($rec->getTitle(), ' ');
-//                $part1 = trim(substr($rec->getTitle(),0,$pos));
-//                $part2 = trim(substr($rec->getTitle(),$pos));
-//                if (strlen($part2) > 63) {
-//                   // echo $part1 . ' ' . strlen($part2) . ' ' . $part2 . "<br>";
-//                    $repo = $em->getRepository('AppBundle:Opus');
-//                    $rec = $repo->findOneBy(array('opus' => $part1));
-//
-//                    $rec->setTitle($part2);
-//                    //$em->persist($rec);
-//
-//                }
-//            }
-//
-//            $em->flush();
-//
-//            return new Response('bachtoopus done');
-//
-//        } catch (ORMException $e) {
-//            $logger = $this->get('logger');
-//            $logger->error($e->getMessage());
-//
-//            return new Response('Error: '.$e->getMessage());
-//        }
-//    }
-
-//    /**
-//     * @Route("/opuscantate")
-//     *
-//     * @return Response
-//     */
-//    public function opusCantateAction()
-//    {
-//        try {
-//
-//            $em = $this->getDoctrine()->getManager();
-//            $recs = $em->getRepository('AppBundle:Opus')
-//                       ->findCantates();
-//
-//            foreach ($recs as $rec) {
-//                $aStr = array();
-//                $aStr = explode(',',$rec->getTitle());
-//
-//                if ($aStr) {
-//                    $part = implode(", ",$aStr);
-//                    $rec->setTitle($part);
-//                }
-//            }
-//
-//            $em->flush();
-//
-//            return new Response('opusCantate done');
-//
-//        } catch (ORMException $e) {
-//            $logger = $this->get('logger');
-//            $logger->error($e->getMessage());
-//
-//            return new Response('Error: '.$e->getMessage());
-//        }
-//    }
-
-    /**
      * @Route("/opustheme")
      *
      * @return Response
@@ -133,7 +46,7 @@ class ConverterController extends Controller
                 }
             }
 
-           $em->flush();
+//           $em->flush();
 
             return new Response('opusTheme done');
 
@@ -146,35 +59,34 @@ class ConverterController extends Controller
     }
 
     /**
-     * @Route("/buildpart")
+     * @Route("/buildpartx")
      *
      * @return Response
      */
-    public function buildPartAction()
+    public function buildPartAction($oneOpus)
     {
         try {
-            $em       = $this->getDoctrine()
-                             ->getManager();
+            $em = $this->getDoctrine()->getManager();
+
             $opusrecs = $em->getRepository('AppBundle:Opus')
-                           ->findTheme(12);
+                           ->findBy(array('opus' => $oneOpus));
 
             foreach ($opusrecs as $opus) {
                 $bachrecs = $em->getRepository('AppBundle:Bach')
-                               ->findParts($opus->getOpus());
+                               ->findParts($opus->getOpus(), strlen($oneOpus));
                 foreach ($bachrecs as $bach) {
                     $pos = strpos($bach->getTitle(), ' ');
                     $part1 = trim(substr($bach->getTitle(),0,$pos));
                     $part2 = trim(substr($bach->getTitle(),$pos));
-                    $part3 = trim(str_replace('','',$part2));
-//                    $part4 = trim(trim($part3, "0..9"));
-//                    $part4 = trim(trim($part4, "0..9"));
+                    $part3 = trim(str_replace('Cantata','',$part2));
+                    $part3 = trim(trim($part3, "0..9"));
 
                     $pos = strpos($part3, '"');
                     $part5 = trim(substr($part3,0,$pos));
-//                    $part4= trim(substr($part4,$pos));
-//
+                    $part5 = trim(str_replace('part','',$part5));
+                    $part5 = trim(trim($part5, "0..9"));
+
                     $pos = strpos($part3, '"');
-//                    $part5 = substr($part4,0,$pos);
                     $part6= trim(substr($part3,$pos));
 
                     $part6 = trim($part6, '"');
@@ -193,7 +105,6 @@ class ConverterController extends Controller
                 }
             }
 
-            $em->flush();
 
             return new Response('part for Overig done');
 
@@ -212,8 +123,7 @@ class ConverterController extends Controller
      */
     public function buildAudioAction()
     {
-        $em = $this->getDoctrine()
-                   ->getManager();
+        $em = $this->getDoctrine() ->getManager();
 
         $recs = $this->getDoctrine()
                      ->getRepository('AppBundle:Part')
@@ -237,54 +147,40 @@ class ConverterController extends Controller
         }
         $em->flush();
 
-        return new Response('audio for Orkest done');
+        return new Response('audio done');
     }
 
     /**
-    * @Route("/clean")
-    *
-    * @return Response
-    */
-   public function cleanAudioAction()
-   {
-       $em = $this->getDoctrine()
-                  ->getManager();
-
-       $recs = $this->getDoctrine()
-                    ->getRepository('AppBundle:Audiotrack')
-                    ->findAll();
-
-       foreach ($recs as $rec) {
-           $arr = explode('-', $rec->getAlbum());
-           $album = trim($arr[0]). ' - ' .trim($arr[1]);
-
-           $rec->setAlbum($album);
-       }
-
-       $em->flush();
-
-       return new Response('cleaning for Track done');
-   }
-
-    /**
-      * @Route("/resequence")
+      * @Route("/rebuild")
       *
       * @return Response
       */
-     public function resequenceAction()
-     {
-         $em = $this->getDoctrine()
-                    ->getManager();
-         $recs = $this->getDoctrine()
-                      ->getRepository('AppBundle:Bach')
-                      ->find248();
-         $i = 0;
-         foreach ($recs as $rec) {
-            $i++;
-            $rec->setPart($i);
+    public function rebuildAction()
+    {
+        $opusArray = (array(
+            'BWV0036',
+            'BWV0036c',
+        ));
+
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($opusArray as $opus) {
+            $entities = $em->getRepository('AppBundle:Part')->getPartsByOpus($opus);
+
+            //remove old stuff (both parts and audiotracks)
+            foreach ($entities as $entity) {
+                $em->remove($entity);
+            }
+
+            //rebuild parts
+            $this->buildPartAction($opus);
+
+            //rebuild tracks
         }
+
         $em->flush();
-         return new Response('done');
-     }
+
+        return new Response('done');
+    }
 
 }
