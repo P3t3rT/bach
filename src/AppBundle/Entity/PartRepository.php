@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
 class PartRepository extends EntityRepository
 {
     //todo: remove method when conversion done
-    public function getPartsJoined()
+    public function getPartsJoined($opus)
     {
         $query = $this->_em->createQuery(
             'SELECT p, o.opus, b.conductor, b.ensemble, b.performer, b.date, b.album, b.track
@@ -22,9 +22,8 @@ class PartRepository extends EntityRepository
                WITH p.opus = o.id
             LEFT JOIN AppBundle:Bach b
                WITH SUBSTRING(b.title,1,8) = o.opus AND p.partnumber = b.part
-            WHERE p.id=35'
-
-        );
+            WHERE o.opus = :opus'
+        )->setParameter('opus', $opus);
 
         return $query->getResult();
     }
@@ -37,7 +36,7 @@ class PartRepository extends EntityRepository
             LEFT JOIN AppBundle:Opus o
               WITH p.opus = o.id
             WHERE o.opus = :opus'
-        )->setParameter('opus', $opus);;
+        )->setParameter('opus', $opus);
 
         return $query->getResult();
     }

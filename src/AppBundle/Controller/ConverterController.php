@@ -117,17 +117,17 @@ class ConverterController extends Controller
     }
 
     /**
-     * @Route("/buildaudio")
+     * @Route("/buildaudiox")
      *
      * @return Response
      */
-    public function buildAudioAction()
+    public function buildAudioAction($opus)
     {
         $em = $this->getDoctrine() ->getManager();
 
         $recs = $this->getDoctrine()
                      ->getRepository('AppBundle:Part')
-                     ->getPartsJoined();
+                     ->getPartsJoined($opus);
 
 
         foreach ($recs as $rec) {
@@ -171,16 +171,19 @@ class ConverterController extends Controller
             foreach ($entities as $entity) {
                 $em->remove($entity);
             }
+            $em->flush();
 
             //rebuild parts
             $this->buildPartAction($opus);
+            $em->flush();
 
             //rebuild tracks
+            $this->buildAudioAction($opus);
         }
 
         $em->flush();
 
-        return new Response('done');
+        return new Response('rebuild done');
     }
 
 }
