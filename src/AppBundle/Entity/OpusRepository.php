@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class OpusRepository extends EntityRepository
 {
+    //todo: remove when conversion complete
     public function findTheme($theme)
     {
         $query = $this->_em->createQueryBuilder()

@@ -29,17 +29,18 @@ class PartRepository extends EntityRepository
 //        return $query->getResult();
 //    }
 
-    public function getPartsByOpus($opus)
-    {
-        $query = $this->_em->createQuery(
-            'SELECT p
-            FROM AppBundle:Part p
-            LEFT JOIN AppBundle:Opus o
-              WITH p.opus = o.id
-            WHERE o.opus = :opus'
-        )->setParameter('opus', $opus);
-
-        return $query->getResult();
-    }
+//todo: remove method when conversion done
+//    public function getPartsByOpus($opus)
+//    {
+//        $query = $this->_em->createQuery(
+//            'SELECT p
+//            FROM AppBundle:Part p
+//            LEFT JOIN AppBundle:Opus o
+//              WITH p.opus = o.id
+//            WHERE o.opus = :opus'
+//        )->setParameter('opus', $opus);
+//
+//        return $query->getResult();
+//    }
 
 }
