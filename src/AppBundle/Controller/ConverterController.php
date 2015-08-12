@@ -127,8 +127,7 @@ class ConverterController extends Controller
 
         $recs = $this->getDoctrine()
                      ->getRepository('AppBundle:Part')
-                     ->getPartsJoined($opus);
-
+                     ->getPartsJoined($opus, strlen($opus));
 
         foreach ($recs as $rec) {
             $at = new Audiotrack();
@@ -158,18 +157,31 @@ class ConverterController extends Controller
     public function rebuildAction()
     {
         $opusArray = (array(
-            'BWV0036',
-            'BWV0036c',
+//            'BWV0036',
+//            'BWV0036c',
+//            'BWV0063',
+//            'BWV0063app',
+//            'BWV0069',
+//            'BWV0069a',
+//            'BWV0134',
+//            'BWV0134a',
+//            'BWV0173',
+//            'BWV0173a',
+//            'BWV0182',
+//            'BWV0182app',
+//            'BWV0207',
+//            'BWV0207a',
+
         ));
 
         $em = $this->getDoctrine()->getManager();
 
         foreach ($opusArray as $opus) {
-            $entities = $em->getRepository('AppBundle:Part')->getPartsByOpus($opus);
+            $parts = $em->getRepository('AppBundle:Part')->getPartsByOpus($opus);
 
             //remove old stuff (both parts and audiotracks)
-            foreach ($entities as $entity) {
-                $em->remove($entity);
+            foreach ($parts as $part) {
+                $em->remove($part);
             }
             $em->flush();
 

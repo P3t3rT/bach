@@ -13,29 +13,29 @@ use Doctrine\ORM\EntityRepository;
 class OpusRepository extends EntityRepository
 {
 //    todo: remove this method when conversion is complete
-    public function findCantates()
-    {
-        $query = $this->_em->createQueryBuilder()
-                           ->select('c')
-                           ->from('AppBundle:Opus', 'c')
-                           ->where('c.theme = 1')
-                           ->getQuery()
-                           ->getResult();
-
-        return $query;
-    }
-
-    public function findMotet()
-    {
-        $query = $this->_em->createQueryBuilder()
-                           ->select('c')
-                           ->from('AppBundle:Opus', 'c')
-                           ->where('c.theme = 2')
-                           ->getQuery()
-                           ->getResult();
-
-        return $query;
-    }
+//    public function findCantates()
+//    {
+//        $query = $this->_em->createQueryBuilder()
+//                           ->select('c')
+//                           ->from('AppBundle:Opus', 'c')
+//                           ->where('c.theme = 1')
+//                           ->getQuery()
+//                           ->getResult();
+//
+//        return $query;
+//    }
+//
+//    public function findMotet()
+//    {
+//        $query = $this->_em->createQueryBuilder()
+//                           ->select('c')
+//                           ->from('AppBundle:Opus', 'c')
+//                           ->where('c.theme = 2')
+//                           ->getQuery()
+//                           ->getResult();
+//
+//        return $query;
+//    }
 
     public function findTheme($theme)
     {
