@@ -214,8 +214,6 @@ class BachController extends Controller
             //            return new Response('Error: '.$e->getMessage());
         }
 
-//        todo: replace this by actual data:
-
         $data['Album']          = $track->getAlbum();
         $data['Track']          = $track->getTrack();
         $data['Dirigent']       = $track->getConductor();
