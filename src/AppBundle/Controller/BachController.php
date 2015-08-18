@@ -27,9 +27,6 @@ class BachController extends Controller
         } catch (ORMException $e) {
             $logger = $this->get('logger');
             $logger->error($e->getMessage());
-//            $this->get('session')->getFlashBag()->set('danger',
-//            $this->get('translator')->trans('Admin.list.error'));
-//            return $this->render('ADHVdsBundle:Administrator:dashboard.html.twig');
         }
     }
 
@@ -85,15 +82,14 @@ class BachController extends Controller
             $end             = $end > $iTotalRecords ? $iTotalRecords : $end;
 
             foreach ($recs as $rec) {
-                $records["data"][] = array(
-                    '<input type="checkbox" name="id[]" value="' . $rec->getId() . '">',
-                    $rec->getOpus(),
-                    $rec->getTitle(),
-                    $rec->getTheme()->getDescription(),
-                    $rec->getDateFirstPerformance(),
-                    '<a href="'. $this->generateUrl('bach_parts', array('opus' => $rec->getId())) . '" class="btn btn-xs default" data-target="#stack1" data-toggle="modal"><i class="fa fa-plus-square-o"></i> Deel</a>'.
-                    '<a href="javascript:;" class="btn btn-xs default"><i class="fa fa-file-text-o"></i> Tekst</a>',
-                );
+
+                $opus['id'] = $rec->getId();
+                $opus['opus'] = $rec->getOpus();
+                $opus['title'] = $rec->getTitle();
+                $opus['description'] = $rec->getTheme()->getDescription();
+                $opus['date'] = $rec->getDateFirstPerformance();
+
+                $records["data"][] = explode('!!', ($this->render('::list_line.html.twig', array('opus' => $opus))->getContent()));
             }
 
             $records["draw"]            = intval($req['draw']);
@@ -124,13 +120,14 @@ class BachController extends Controller
         try {
             $opus = $this->getDoctrine()
                          ->getRepository('AppBundle:Opus')
-                         ->find($opusId);
+                         ->findOpus($opusId);
 
         } catch (ORMException $e) {
             $logger = $this->get('logger');
             $logger->error($e->getMessage());
-            //todo: proper error messag to screen
-            //            return new Response('Error: '.$e->getMessage());
+
+            $this->get('session')->getFlashBag()->set('danger', 'Requested parts not found');
+            return $this->redirectToRoute('bach_list');
         }
 
         $opus ? $head['opus'] = $opus->getOpus() : $head['opus'] = 'Unknown';

@@ -9,20 +9,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class OpusRepository extends EntityRepository
 {
-    //todo: remove when conversion complete
-    public function findTheme($theme)
-    {
-        $query = $this->_em->createQueryBuilder()
-                           ->select('c')
-                           ->from('AppBundle:Opus', 'c')
-                           ->where('c.theme = :theme')
-                            ->setParameter('theme', $theme)
-                           ->getQuery()
-                           ->getResult();
-
-        return $query;
-    }
-
     /**
      * Find the selected Opus records
      *
@@ -92,6 +78,17 @@ class OpusRepository extends EntityRepository
         }
 
         return $qb->getQuery()->getSingleScalarResult();
+    }
+
+    public function findOpus($id)
+    {
+        $query = $this->_em->createQuery(
+            'SELECT o
+            FROM AppBundle:Opus o
+            WHERE o.id like :id'
+        )->setParameter('id', $id);
+
+        return $query->getSingleResult();
     }
 
 }

@@ -1,0 +1,16 @@
+
+{% set buttons =
+    '<div class="btn-group">
+        <a href="' ~ path('bach_parts') ~ '/' ~ opus.id ~ '" class="btn btn-xs default" data-target="#stack1" data-toggle="modal">Parts</a>
+        <button type="button" class="btn btn-xs default dropdown-toggle" data-toggle="dropdown"><i class="fa fa-angle-down"></i></button>
+        <ul class="dropdown-menu" role="menu">
+            <li>
+                <a href="javascript:;"><i class="fa fa-file-text-o"></i> Lyrics</a>
+            </li>
+        </ul>
+    </div>
+    '
+%}
+{% block line %}
+    <input type="checkbox" name="id[]" value="{{ opus.id }}">!!{{ opus.opus }}!!{{ opus.title }}!!{{ opus.description }}!!{{ opus.date }}!!{{ buttons|raw }}
+{% endblock line %}
