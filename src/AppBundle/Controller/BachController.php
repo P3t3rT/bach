@@ -87,6 +87,7 @@ class BachController extends Controller
                 $opus['opus'] = $rec->getOpus();
                 $opus['title'] = $rec->getTitle();
                 $opus['description'] = $rec->getTheme()->getDescription();
+                //todo: handle date differently, since it is an object, list_line.html.twig doesn't like it and crashes
                 $opus['date'] = $rec->getDateFirstPerformance();
 
                 $records["data"][] = explode('!!', ($this->render('::list_line.html.twig', array('opus' => $opus))->getContent()));
