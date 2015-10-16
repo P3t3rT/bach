@@ -1,0 +1,1 @@
+docker exec -it bach3_php_1 bash
