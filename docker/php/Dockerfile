@@ -2,7 +2,7 @@ FROM php:5.6-apache
 MAINTAINER Peter Termaten <peter.termaten@gmail.com>
 
 # Apache
-COPY bach3.conf /etc/apache2/sites-enabled/000-default.conf
+COPY bach3.conf /etc/apache2/sites-enabled/bach.conf
 
 RUN a2enmod rewrite
 
@@ -12,10 +12,6 @@ RUN chown www-data:www-data /var/www/html
 # PHP ini stuff
 RUN echo "date.timezone=Europe/Amsterdam" >> /usr/local/etc/php/php.ini && \
     echo "short_open_tag=off" >> /usr/local/etc/php/php.ini
-
-    #echo "extension=apcu.so" >> /usr/local/etc/php/php.ini  && \
-    #echo "extension=memcached.so" >> /usr/local/etc/php/php.ini
-    #echo "zend_extension=opcache.so" >> /usr/local/etc/php/php.ini
 
 RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
@@ -29,6 +25,14 @@ RUN apt-get update && apt-get install -y \
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Adminer
+RUN mkdir -p /var/www/adminer
+RUN curl https://raw.githubusercontent.com/vrana/adminer/master/designs/pilot/adminer.css -o /var/www/adminer/adminer.css
+RUN curl http://www.adminer.org/static/download/4.2.2/adminer-4.2.2-mysql-en.php -o /var/www/adminer/index.php
+RUN chown -R www-data:www-data /var/www/adminer
+#COPY adminer.conf /etc/apache2/sites-enabled/adminer.conf
+COPY adminer.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Install Xdebug
 RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /usr/local/etc/php/conf.d/ext-xdebug.ini && \
