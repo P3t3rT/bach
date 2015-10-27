@@ -1,4 +1,4 @@
-FROM php:5.4-apache
+FROM php:5.6-apache
 MAINTAINER Peter Termaten <peter.termaten@gmail.com>
 
 # Apache
@@ -50,7 +50,7 @@ RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /usr/local/etc/php
     echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install caching stuff
-RUN pecl install apcu-beta memcache memcached && \
+RUN pecl install apcu-beta memcache-3.0.6 memcached && \
     echo "extension=memcache.so" >> "/usr/local/etc/php/conf.d/ext-memcache.ini" &&  \
     echo "extension=memcached.so" >> "/usr/local/etc/php/conf.d/ext-memcached.ini" &&  \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini && \
