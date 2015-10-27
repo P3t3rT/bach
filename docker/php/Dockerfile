@@ -1,4 +1,4 @@
-FROM php:5.6-apache
+FROM php:5.4-apache
 MAINTAINER Peter Termaten <peter.termaten@gmail.com>
 
 # Apache
@@ -11,17 +11,22 @@ RUN chown www-data:www-data /var/www/html
 
 # PHP ini stuff
 RUN echo "date.timezone=Europe/Amsterdam" >> /usr/local/etc/php/php.ini && \
-    echo "short_open_tag=off" >> /usr/local/etc/php/php.ini
+    echo "short_open_tag=off" >> /usr/local/etc/php/php.ini && \
+    echo "memory_limit=-1" >> /usr/local/etc/php/php.ini
 
 RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
         libicu-dev \
-        libmemcached-dev zlib1g-dev \
+        zlib1g-dev \
         php5-xdebug \
+        libmemcached-dev \
+       # memcached php5-memcache \
         git \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install mcrypt pdo pdo_mysql intl mbstring \
+    && docker-php-ext-install mcrypt pdo pdo_mysql intl mbstring zip \
     && rm -rf /var/lib/apt/lists/*
+
+#curl -L http://pecl.php.net/get/memcache-2.2.7.tgz >> /usr/src/php/ext/memcache.tgz --> untar!
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -45,7 +50,8 @@ RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /usr/local/etc/php
     echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install caching stuff
-RUN pecl install apcu-beta memcached && \
+RUN pecl install apcu-beta memcache memcached && \
+    echo "extension=memcache.so" >> "/usr/local/etc/php/conf.d/ext-memcache.ini" &&  \
     echo "extension=memcached.so" >> "/usr/local/etc/php/conf.d/ext-memcached.ini" &&  \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini && \
     echo "zend_extension=opcache.so" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
