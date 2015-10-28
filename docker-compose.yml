@@ -6,7 +6,6 @@ app:
     tty: true
 php:
     image: my-php
-    mem_limit: 2048m
     volumes_from:
         - app
     links:
@@ -15,7 +14,6 @@ php:
         - memcached
     ports:
         - 80:80
-#        - 9000:9000  #for xdebug??
 db:
     image: mysql:5.6
     ports:

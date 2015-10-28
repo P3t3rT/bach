@@ -74,6 +74,18 @@ swiftmailer:
 
 #Leaseweb Memcache
 lsw_memcache:
+    doctrine:
+        metadata_cache:
+            pool: default
+            entity_manager: default          # the name of your entity_manager connection
+            #document_manager: default        # the name of your document_manager connection
+        result_cache:
+            pool: default
+            entity_manager: default          # you may specify multiple entity_managers, f.e. [default, read]
+            #prefix: "result_"                # you may specify a prefix for the entries
+        query_cache:
+            pool: default
+            entity_manager: default
     session:
         pool: default
     pools:

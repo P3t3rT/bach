@@ -19,14 +19,10 @@ RUN apt-get update && apt-get install -y \
         libicu-dev \
         zlib1g-dev \
         php5-xdebug \
-        libmemcached-dev \
-       # memcached php5-memcache \
         git \
     && docker-php-ext-configure intl \
     && docker-php-ext-install mcrypt pdo pdo_mysql intl mbstring zip \
     && rm -rf /var/lib/apt/lists/*
-
-#curl -L http://pecl.php.net/get/memcache-2.2.7.tgz >> /usr/src/php/ext/memcache.tgz --> untar!
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -50,9 +46,8 @@ RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /usr/local/etc/php
     echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install caching stuff
-RUN pecl install apcu-beta memcache-3.0.6 memcached && \
+RUN pecl install apcu-beta memcache-3.0.8 && \
     echo "extension=memcache.so" >> "/usr/local/etc/php/conf.d/ext-memcache.ini" &&  \
-    echo "extension=memcached.so" >> "/usr/local/etc/php/conf.d/ext-memcached.ini" &&  \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini && \
     echo "zend_extension=opcache.so" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
     echo "opcache.enable_cli=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
@@ -62,6 +57,6 @@ RUN pecl install apcu-beta memcache-3.0.6 memcached && \
     echo "opcache.fast_shutdown=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
     echo "opcache.save_comments=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini"
 
-EXPOSE 80 9000
+EXPOSE 80
 
 CMD ["apache2-foreground"]
