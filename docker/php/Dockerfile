@@ -11,16 +11,17 @@ RUN chown www-data:www-data /var/www/html
 
 # PHP ini stuff
 RUN echo "date.timezone=Europe/Amsterdam" >> /usr/local/etc/php/php.ini && \
-    echo "short_open_tag=off" >> /usr/local/etc/php/php.ini
+    echo "short_open_tag=off" >> /usr/local/etc/php/php.ini && \
+    echo "memory_limit=-1" >> /usr/local/etc/php/php.ini
 
 RUN apt-get update && apt-get install -y \
         libmcrypt-dev \
         libicu-dev \
-        libmemcached-dev zlib1g-dev \
+        zlib1g-dev \
         php5-xdebug \
         git \
     && docker-php-ext-configure intl \
-    && docker-php-ext-install mcrypt pdo pdo_mysql intl mbstring \
+    && docker-php-ext-install mcrypt pdo pdo_mysql intl mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install composer
@@ -45,8 +46,8 @@ RUN echo "zend_extension=/usr/lib/php5/20131226/xdebug.so" >> /usr/local/etc/php
     echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/ext-xdebug.ini
 
 # Install caching stuff
-RUN pecl install apcu-beta memcached && \
-    echo "extension=memcached.so" >> "/usr/local/etc/php/conf.d/ext-memcached.ini" &&  \
+RUN pecl install apcu-beta memcache-3.0.8 && \
+    echo "extension=memcache.so" >> "/usr/local/etc/php/conf.d/ext-memcache.ini" &&  \
     echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini && \
     echo "zend_extension=opcache.so" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
     echo "opcache.enable_cli=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
@@ -56,6 +57,6 @@ RUN pecl install apcu-beta memcached && \
     echo "opcache.fast_shutdown=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini" && \
     echo "opcache.save_comments=1" >> "/usr/local/etc/php/conf.d/ext-opcache.ini"
 
-EXPOSE 80 9000
+EXPOSE 80
 
 CMD ["apache2-foreground"]

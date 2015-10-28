@@ -2,7 +2,6 @@ app:
     image: my-app
     volumes:
         - .:/var/www/html/
-       # - .:/var/www/html/adminer
 #        - ./logs/symfony:/var/www/symfony/app/logs
     tty: true
 php:
@@ -12,11 +11,11 @@ php:
     links:
         - db
         - mailcatcher
+        - memcached
     ports:
         - 80:80
-        - 9000:9000
 db:
-    image: mysql
+    image: mysql:5.6
     ports:
         - 3306:3306
     volumes_from:
@@ -31,9 +30,12 @@ mailcatcher:
     ports:
         - 1025:1025
         - 1080:1080
-
-#composer:
-#    image: composer/composer
-#    volumes:
-#        - .:/app
-#    #usage:  docker run --rm -v $(pwd):/app composer/composer install (self-update, etc)
+memcached:
+    image: memcached
+    ports:
+        - 11211:11211
+#elasticsearch:
+#  image: elasticsearch
+#  ports:
+#    - "9200:9200"
+#    - "9300:9300"

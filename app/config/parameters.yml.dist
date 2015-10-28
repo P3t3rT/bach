@@ -22,3 +22,4 @@ parameters:
     debug_toolbar:          true
     debug_redirects:        false
     use_assetic_controller: true
+    memcache_host:          127.0.0.1
