@@ -12,6 +12,7 @@ php:
         - db
         - mailcatcher
         - memcached
+        - elasticsearch
     ports:
         - 80:80
 db:
@@ -34,8 +35,8 @@ memcached:
     image: memcached
     ports:
         - 11211:11211
-#elasticsearch:
-#  image: elasticsearch
-#  ports:
-#    - "9200:9200"
-#    - "9300:9300"
+elasticsearch:
+  image: elasticsearch
+  ports:
+    - 9200:9200
+    - 9300:9300
