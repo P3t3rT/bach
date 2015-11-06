@@ -20,7 +20,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "roave/security-advisories": "dev-master",
         "friendsofsymfony/jsrouting-bundle": "@stable",
-        "leaseweb/memcache-bundle": "*"
+        "leaseweb/memcache-bundle": "*",
+        "friendsofsymfony/elastica-bundle": "^3.1"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

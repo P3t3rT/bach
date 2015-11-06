@@ -92,3 +92,22 @@ lsw_memcache:
         default:
             servers:
               - { host: "%memcache_host%", tcp_port: 11211 }
+
+#FOS/Elastica
+fos_elastica:
+    clients:
+        default: { host: "%elastic_host%", port: 9200 }
+    indexes:
+        bach:
+            types:
+                opus:
+                    mappings:
+                        title: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Opus
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
 
             new AppBundle\AppBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
             new Lsw\MemcacheBundle\LswMemcacheBundle(),
         );
 
