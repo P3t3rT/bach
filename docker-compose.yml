@@ -1,20 +1,25 @@
 app:
-    image: my-app
+    #container_name: volumes
+    build: ./docker/app
     volumes:
         - .:/var/www/html/
-#        - ./logs/symfony:/var/www/symfony/app/logs
+        - /var/lib/mysql
+        - /usr/share/elasticsearch/data
     tty: true
 php:
-    image: my-php
+    #container_name: web
+    build: ./docker/php
     volumes_from:
         - app
     links:
         - db
         - mailcatcher
         - memcached
+        - elasticsearch
     ports:
         - 80:80
 db:
+    #container_name: db
     image: mysql:5.6
     ports:
         - 3306:3306
@@ -34,8 +39,8 @@ memcached:
     image: memcached
     ports:
         - 11211:11211
-#elasticsearch:
-#  image: elasticsearch
-#  ports:
-#    - "9200:9200"
-#    - "9300:9300"
+elasticsearch:
+    image: elasticsearch:1.7
+    ports:
+        - 9200:9200
+        - 9300:9300

@@ -1,3 +1,3 @@
 FROM debian:jessie
 
-VOLUME /var/www/html/
+#VOLUME /var/www/html/
