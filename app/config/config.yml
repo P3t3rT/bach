@@ -99,6 +99,7 @@ fos_elastica:
         default: { host: "%elastic_host%", port: 9200 }
     indexes:
         bach:
+            finder: ~
             types:
                 opus:
                     mappings:
@@ -109,5 +110,5 @@ fos_elastica:
                         provider: ~
                         listener:
                             immediate: ~
-                        finder: ~
+#                        finder: ~
 

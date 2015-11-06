@@ -1,6 +1,6 @@
-app:
+data:
     #container_name: volumes
-    build: ./docker/app
+    build: ./docker/data
     volumes:
         - .:/var/www/html/
         - /var/lib/mysql
@@ -10,7 +10,7 @@ php:
     #container_name: web
     build: ./docker/php
     volumes_from:
-        - app
+        - data
     links:
         - db
         - mailcatcher
@@ -24,7 +24,7 @@ db:
     ports:
         - 3306:3306
     volumes_from:
-        - app
+        - data
     environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: bach
