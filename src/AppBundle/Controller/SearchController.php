@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Elastica\Query;
 use Elastica\Query\Bool;
+use Elastica\Query\Wildcard;
 use Elastica\Query\QueryString;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use stdClass;
@@ -35,12 +36,51 @@ class SearchController extends Controller
         $query = new Query($boolQuery);
 
         $query->setHighlight(array(
-            "fields" => array("*" => new stdClass)
+            "fields" => array("*" => new stdClass),
+            "pre_tags" => ["<strong>"],
+            "post_tags" => ["</strong>"],
         ));
 
         // Returns a mixed array of any objects mapped + highlights
         $results = $finder->findHybrid($query);
 
-        return new Response('done');
+        $rows = array();
+        $i=0;
+        foreach ($results as $result) {
+            $hit = $result->getResult()->getHit();
+            $rows[$i]['type'] = $hit['_type'];
+            foreach ($hit['highlight'] as $field => $highlights) {
+                $tmp1 = $field;
+                foreach ($highlights as $highlight) {
+                    $rows[$i]['highlight'] = $highlight;
+                }
+            }
+        $i++;
+        }
+
+        return $this->render('search_results.html.twig', array('rows' => $rows));
+
+    /*ES bool query:
+        {
+          "query": {
+            "bool": {
+              "must": [
+                {
+                  "query_string": {
+                    "query": "term",
+                    "default_field": "_all"
+                  }
+                }
+              ]
+            }
+          },
+          "highlight": {
+            "fields": {
+              "*": {}
+            }
+          }
+        }
+    */
+
     }
 }

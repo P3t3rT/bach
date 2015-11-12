@@ -103,12 +103,37 @@ fos_elastica:
             types:
                 opus:
                     mappings:
-                        title: ~
+                        opus_title:
+                            property_path: title
                     persistence:
                         driver: orm
                         model: AppBundle\Entity\Opus
                         provider: ~
                         listener:
                             immediate: ~
-#                        finder: ~
+                        finder: ~
+                part:
+                    mappings:
+                        part_title:
+                            property_path: title
+                        parttype: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Part
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+                audiotrack:
+                        mappings:
+                            conductor: ~
+                            ensemble: ~
+                            performer: ~
+                        persistence:
+                            driver: orm
+                            model: AppBundle\Entity\Audiotrack
+                            provider: ~
+                            listener:
+                                immediate: ~
+                            finder: ~
 
