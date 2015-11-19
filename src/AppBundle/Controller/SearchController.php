@@ -4,13 +4,11 @@ namespace AppBundle\Controller;
 
 use Elastica\Query;
 use Elastica\Query\Bool;
-use Elastica\Query\Wildcard;
 use Elastica\Query\QueryString;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use stdClass;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class SearchController extends Controller
 {
@@ -26,10 +24,34 @@ class SearchController extends Controller
      * @var hit data from search result
      */
     private $hit;
+    /**
+     * @var array Result for output
+     */
+    private $rows = array();
 
     /**
      * @Route("/search", name="bach_search")
      *
+     * ES bool query:
+     *  {
+     *    "query": {
+     *        "bool": {
+     *          "must": [
+     *            {
+     *              "query_string": {
+     *                "query": "term",
+     *                "default_field": "_all"
+     *              }
+     *            }
+     *          ]
+     *        }
+     *      },
+     *      "highlight": {
+     *        "fields": {
+     *         "*": {}
+     *        }
+     *      }
+     *    }
      */
     public function searchAction(Request $request)
     {
@@ -57,41 +79,18 @@ class SearchController extends Controller
         // Returns a mixed array of any objects mapped + highlights
         $this->results = $finder->findHybrid($query);
 
-        $rows = $this->_processResults();
+        $this->_processResults();
 
-        return $this->render('search_results.html.twig', array('rows' => $rows));
-
-    /*ES bool query:
-        {
-          "query": {
-            "bool": {
-              "must": [
-                {
-                  "query_string": {
-                    "query": "term",
-                    "default_field": "_all"
-                  }
-                }
-              ]
-            }
-          },
-          "highlight": {
-            "fields": {
-              "*": {}
-            }
-          }
-        }
-    */
-
+        return $this->render('search_results.html.twig', array('rows' => $this->rows));
     }
 
     protected function _processResults()
     {
-        $rows = array();
-        $i=0;
+//        $rows = array();
+        $i = 0;
         foreach ($this->results as $result) {
-           $this->transformed = $result->getTransformed();
-           $this->hit = $result->getResult()->getHit();
+            $this->transformed = $result->getTransformed();
+            $this->hit         = $result->getResult()->getHit();
             switch ($this->hit['_type']) {
                 case "opus":
                     $this->getOpusData($i);
@@ -102,8 +101,44 @@ class SearchController extends Controller
                 case "audiotrack":
                     $this->getAudiotrackData($i);
             }
+            $i++;
+        }
 
+        //return $rows;
+    }
 
+    protected function getOpusData($i)
+    {
+//        $rows = array();
+        $this->rows[$i]['opus']['id'] = $this->transformed->getId();
+        $this->rows[$i]['opus']['opus'] = $this->transformed->getOpus();
+        $this->rows[$i]['opus']['opus_title'] = $this->hit['highlight']['opus_title'][0];
+    }
+
+    protected function getPartData($i)
+    {
+        foreach ($this->hit['highlight'] as $field => $highlights) {
+            $this->rows[$i]['part'][$field] = $this->hit['highlight'][$field][0];
+            $this->rows[$i]['part']['parttype'] = $this->transformed->getParttype();
+        }
+
+        //zoek bijbehorend opus record
+        //bestaat opus row al? Voeg toe aan bestaand record, anders nieuw record
+        $this->rows[$i]['opus']['id'] = $this->transformed->getOpus()->getId();
+        $this->rows[$i]['opus']['opus'] = $this->transformed->getOpus()->getOpus();
+        $this->rows[$i]['opus']['opus_title'] = $this->transformed->getOpus()->getTitle();
+    }
+
+    protected function getAudiotrackData($i)
+    {
+        foreach ($this->hit['highlight'] as $field => $highlights) {
+           $this->rows[$i]['track'][$field] = $this->hit['highlight'][$field][0];
+           $field != 'conductor' ? $this->rows[$i]['track']['conductor'] = $this->transformed->getConductor() : null;
+           $field != 'ensemble' ? $this->rows[$i]['track']['ensemble'] = $this->transformed->getEnsemble() : null;
+           $field != 'performer' ? $this->rows[$i]['track']['performer'] = $this->transformed->getPerformer(): null;
+       }
+    }
+}
 
 //           $rows[$i]['type'] = $hit['_type'];
 //           foreach ($hit['highlight'] as $field => $highlights) {
@@ -112,26 +147,3 @@ class SearchController extends Controller
 //                   $rows[$i]['highlight'] = $highlight;
 //               }
 //           }
-        $i++;
-        }
-
-        return $rows;
-    }
-
-    protected function getOpusData($i)
-    {
-        $rows[$i]['opus']['id'] = $this->transformed->getId();
-        $rows[$i]['opus']['opus'] = $this->transformed->getOpus();
-        $rows[$i]['opus']['title'] = $this->hit['highlight']['opus_title'][0];
-    }
-
-    protected function getPartData($i)
-    {
-
-    }
-
-    protected function getAudiotrackData($i)
-    {
-
-    }
-}
