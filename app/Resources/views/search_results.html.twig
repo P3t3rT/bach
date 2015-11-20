@@ -1,7 +1,7 @@
 {% extends "layout.html.twig" %}
 
-{% block title %}JSB | zoekresultaten{% endblock %}
-{% block pagetitle %}<span class="font-green-sharp">Johann Sebastian Bach</span><small> Zoek Resultaten</small>{% endblock pagetitle %}
+{% block title %}JSB | Zoekresultaten{% endblock %}
+{% block pagetitle %}<span class="font-green-sharp">Johann Sebastian Bach</span><small> Zoekresultaten</small>{% endblock pagetitle %}
 
 {% block stylesheets %}
     {{ parent() }}
@@ -17,36 +17,37 @@
                 <tbody>
                 {% for row in rows %}
                     <tr>
-                        <td colspan="3"><h5><strong>Resultaat {{ loop.index }}</strong></h5></td>
+                        <td colspan="3"><strong>Resultaat {{ loop.index }}</strong></td>
                     </tr>
-                    {% for type, arr in row %}
+                    {% for type, ary in row %}
                         {% if type == 'opus' %}
                             <tr>
                                 <td>Opus: </td>
-                                <td>{{ arr.opus }}</td>
-                                <td>{{ arr.opus_title|raw }}</td>
+                                {#<td>{{ ary.opus }}</td>#}
+                                <td><a href="{{ path('bach_parts', {'opus': ary.id}) }}" data-target="#stack1" data-toggle="modal">{{ ary.opus }}</a></td>
+                                <td>{{ ary.opus_title|raw }}</td>
                             </tr>
                         {% elseif type == 'part' %}
                             <tr>
-                                <td>Part: </td>
-                                <td>{{ arr.parttype }}</td>
-                                <td>{{ arr.part_title|raw }}</td>
+                                <td>Part ({{ ary.partnumber }}): </td>
+                                <td>{{ ary.parttype|raw }}</td>
+                                <td>{{ ary.part_title|raw }}</td>
                             </tr>
                         {% elseif type == 'track' %}
                             <tr>
-                                <td>Track: </td>
+                                <td></td>
                                 <td>Dirigent: </td>
-                                <td>{{ arr.conductor|raw }}</td>
+                                <td>{{ ary.conductor|raw }}</td>
                             </tr>
                             <tr>
                                <td></td>
                                <td>Ensemble: </td>
-                               <td>{{ arr.ensemble|raw }}</td>
+                               <td>{{ ary.ensemble|raw }}</td>
                             </tr>
                             <tr>
                                <td></td>
                                <td>Uitvoerenden:</td>
-                               <td>{{ arr.performer|raw }}</td>
+                               <td>{{ ary.performer|raw }}</td>
                            </tr>
                         {% endif %}
                     {% endfor %}
@@ -55,6 +56,7 @@
             </table>
         </div>
     </div>
+    {% include  'list_modals.html.twig'%}
     <!-- END PAGE CONTENT INNER -->
 {% endblock content%}
 
@@ -64,12 +66,12 @@
 {% endblock javascripts%}
 
 {% block jquery %}
-    {{ parent() }}
-	<script>
-      jQuery(document).ready(function() {
-         Metronic.init(); // init metronic core components
-         Layout.init(); // init current layout
-      });
-   </script>
+    {#{{ parent() }}#}
+	{#<script>#}
+      {#jQuery(document).ready(function() {#}
+         {#Metronic.init(); // init metronic core components#}
+         {#Layout.init(); // init current layout#}
+      {#});#}
+   {#</script>#}
 {% endblock jquery %}
 {#<!-- END JAVASCRIPTS -->#}

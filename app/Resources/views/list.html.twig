@@ -1,4 +1,4 @@
-{% extends "::layout.html.twig" %}
+{% extends "layout.html.twig" %}
 
 {% block title %}JSB | overzicht{% endblock %}
 {% block pagetitle %}<span class="font-green-sharp">Johann Sebastian Bach</span><small> Audio catalogus</small>{% endblock pagetitle %}
@@ -16,7 +16,7 @@
 {% endblock stylesheets %}
 
 {% block content %}
-    {{ include("::flash.html.twig") }}
+    {{ include("flash.html.twig") }}
 
     <!-- BEGIN PAGE CONTENT INNER -->
     <div class="row">
@@ -95,7 +95,7 @@
             <!-- End: life time stats -->
         </div>
     </div>
-    {% include  '::list_modals.html.twig'%}
+    {% include  'list_modals.html.twig'%}
     <!-- END PAGE CONTENT INNER -->
 {% endblock content%}
 

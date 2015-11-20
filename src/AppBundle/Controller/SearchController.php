@@ -86,7 +86,6 @@ class SearchController extends Controller
 
     protected function _processResults()
     {
-//        $rows = array();
         $i = 0;
         foreach ($this->results as $result) {
             $this->transformed = $result->getTransformed();
@@ -103,13 +102,10 @@ class SearchController extends Controller
             }
             $i++;
         }
-
-        //return $rows;
     }
 
     protected function getOpusData($i)
     {
-//        $rows = array();
         $this->rows[$i]['opus']['id'] = $this->transformed->getId();
         $this->rows[$i]['opus']['opus'] = $this->transformed->getOpus();
         $this->rows[$i]['opus']['opus_title'] = $this->hit['highlight']['opus_title'][0];
@@ -117,33 +113,43 @@ class SearchController extends Controller
 
     protected function getPartData($i)
     {
-        foreach ($this->hit['highlight'] as $field => $highlights) {
-            $this->rows[$i]['part'][$field] = $this->hit['highlight'][$field][0];
-            $this->rows[$i]['part']['parttype'] = $this->transformed->getParttype();
-        }
-
-        //zoek bijbehorend opus record
-        //bestaat opus row al? Voeg toe aan bestaand record, anders nieuw record
+        //zoek bijbehorend opus row
+        //todo: bestaat opus row al? Voeg toe aan bestaande row, anders nieuwe row
         $this->rows[$i]['opus']['id'] = $this->transformed->getOpus()->getId();
         $this->rows[$i]['opus']['opus'] = $this->transformed->getOpus()->getOpus();
         $this->rows[$i]['opus']['opus_title'] = $this->transformed->getOpus()->getTitle();
+
+        foreach ($this->hit['highlight'] as $field => $highlights) {
+            $this->rows[$i]['part'][$field] = $this->hit['highlight'][$field][0];
+            $field != 'parttype' ? $this->rows[$i]['part']['parttype'] = $this->transformed->getParttype() : null;
+            $field != 'partnumber' ?  $this->rows[$i]['part']['partnumber'] = $this->transformed->getPartnumber() : null;
+            $field != 'part_title' ? $this->rows[$i]['part']['part_title'] = $this->transformed->getTitle() : null;
+        }
     }
 
     protected function getAudiotrackData($i)
     {
+        //zoek bijbehorend opus row
+        //todo: bestaat opus row al? Voeg toe aan bestaande row, anders nieuwe row
+        $opus = $this->getDoctrine()
+                     ->getRepository('AppBundle:Opus')
+                     ->find($this->transformed->getPart()->getOpus());
+
+        $this->rows[$i]['opus']['id'] = $opus->getId();
+        $this->rows[$i]['opus']['opus'] = $opus->getOpus();
+        $this->rows[$i]['opus']['opus_title'] = $opus->getTitle();
+
+        //zoek bijbehorend part row
+        $this->rows[$i]['part']['part_title'] = $this->transformed->getPart()->getTitle();
+        $this->rows[$i]['part']['parttype'] = $this->transformed->getPart()->getParttype();
+        $this->rows[$i]['part']['partnumber'] = $this->transformed->getPart()->getPartnumber();
+
+        //create track rows
         foreach ($this->hit['highlight'] as $field => $highlights) {
-           $this->rows[$i]['track'][$field] = $this->hit['highlight'][$field][0];
-           $field != 'conductor' ? $this->rows[$i]['track']['conductor'] = $this->transformed->getConductor() : null;
-           $field != 'ensemble' ? $this->rows[$i]['track']['ensemble'] = $this->transformed->getEnsemble() : null;
-           $field != 'performer' ? $this->rows[$i]['track']['performer'] = $this->transformed->getPerformer(): null;
-       }
+            $this->rows[$i]['track'][$field] = $this->hit['highlight'][$field][0];
+            $field != 'conductor' ? $this->rows[$i]['track']['conductor'] = $this->transformed->getConductor() : null;
+            $field != 'ensemble'  ? $this->rows[$i]['track']['ensemble']  = $this->transformed->getEnsemble() : null;
+            $field != 'performer' ? $this->rows[$i]['track']['performer'] = $this->transformed->getPerformer() : null;
+        }
     }
 }
-
-//           $rows[$i]['type'] = $hit['_type'];
-//           foreach ($hit['highlight'] as $field => $highlights) {
-//               $tmp1 = $field;
-//               foreach ($highlights as $highlight) {
-//                   $rows[$i]['highlight'] = $highlight;
-//               }
-//           }
